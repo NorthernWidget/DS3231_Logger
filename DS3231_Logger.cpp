@@ -1,8 +1,21 @@
-//DS3231_Simple_Test.ino
+/******************************************************************************
+DS3231_Logger.cpp
+A simplified library for the DS3231, focused on data logger applications
+Bobby Schulz @ Northern Widget LLC
+4/4/2018
+
+The DS3231 is a high accuracy tempurature compensated RTC. This chip allows for time to be accurately kept
+over long periods of time, and waking up a logger device when required to take measurments or tend to sensors
+
+"That's not fair. That's not fair at all. There was time now. There was, was all the time I needed..."
+-Henery Bemis
+
+Distributed as-is; no warranty is given.
+******************************************************************************/
+
 #include "Arduino.h"
 #include <Wire.h>
 #include <DS3231_Logger.h>
-
 
 DS3231_Logger::DS3231_Logger()
 {
