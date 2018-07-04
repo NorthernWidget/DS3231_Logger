@@ -26,8 +26,16 @@ int DS3231_Logger::Begin(void)
 {
 	Wire.begin();
 
+	// Serial.print("Stat = "); //DEBUG!
+	// Wire.beginTransmission(ADR);
+	// Wire.write(0x0F); //Write values to Control reg
+	// Wire.endTransmission(); //return result of begin, reading is optional
+
+	// Wire.requestFrom(ADR, 1);
+	// Serial.println(Wire.read(), HEX);  //DEBUG!
+
 	Wire.beginTransmission(ADR);
-	Wire.write(0x08); //Write values to Control reg
+	Wire.write(0x0E); //Write values to Control reg
 	Wire.write(0x24); //Start oscilator, turn off BBSQW, Turn off alarms, turn on convert
 	return Wire.endTransmission(); //return result of begin, reading is optional
 }
@@ -65,18 +73,21 @@ String DS3231_Logger::GetTime(int mode)
 {
 	// SPI.setDataMode(SPI_MODE1); 
 	String temp;
-		int TimeDate [7]; //second,minute,hour,null,day,month,year		
+		int TimeDate [7]; //second,minute,hour,null,day,month,year	
+		Wire.beginTransmission(ADR); //Ask 1 byte of data 
+		Wire.write(0x00); //Read values starting at reg 0x00
+		Wire.endTransmission();
+		Wire.requestFrom(ADR, 7);	
 		for(int i=0; i<=6;i++){
-			if(i==3)
+			if(i==3) {
 				i++;
+				Wire.read();
+			}
 			// digitalWrite(CS, LOW);
 			// SPI.transfer(i+0x00); 
 			// unsigned int n = SPI.transfer(0x00);        
 			// digitalWrite(CS, HIGH);
-			Wire.beginTransmission(ADR); //Ask 1 byte of data 
-			Wire.write(i); //Read values starting at reg 0x00
-			Wire.endTransmission();
-			Wire.requestFrom(ADR, 1);
+
 			unsigned int n = Wire.read(); //Read value of reg
 			// Wire.endTransmission(); 
 
@@ -134,6 +145,7 @@ String DS3231_Logger::GetTime(int mode)
 			if(TimeDateStr[i].length() < 2) {
 				TimeDateStr[i] = "0" + TimeDateStr[i];
 			}
+			// Serial.println(TimeDateStr[i]); //DEBUG!
 		}
 		TimeDateStr[0] = "20" + TimeDateStr[0];
 
@@ -332,6 +344,7 @@ int DS3231_Logger::SetAlarm(unsigned int Seconds) { //Set alarm from current tim
 	AlarmTime[4] = (AlarmTime[4] + AlarmVal[4] + CarryIn);
 	//ADD FAILURE NOTIFICATION FOR OUT OF RANGE??
 
+	int Offset = 0;
 	for(int i=0; i<=6;i++){
 		if(i==3)
 			i++;
@@ -346,9 +359,11 @@ int DS3231_Logger::SetAlarm(unsigned int Seconds) { //Set alarm from current tim
 		AlarmTime[i]= a+(b<<4);
 		  
 		Wire.beginTransmission(ADR);
-		Wire.write(0x07 + i); //Write values starting at reg 0x00
-		Wire.write(AlarmTime[i] | ((AlarmMask & (1 << i)) << 8)); //Write time date values into regs
+		Wire.write(0x07 + Offset); //Write values starting at reg 0x07
+		Wire.write(AlarmTime[i] | ((AlarmMask & (1 << Offset)) << 8)); //Write time date values into regs
 		Wire.endTransmission(); //return result of begin, reading is optional
+		Offset++;
+		// Serial.println(AlarmTime[i], HEX); //DEBUG!
   }
 
   ClearAlarm();

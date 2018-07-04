@@ -13,8 +13,8 @@ over long periods of time, and waking up a logger device when required to take m
 Distributed as-is; no warranty is given.
 ******************************************************************************/
 
-#ifndef MAX_3234_h
-#define MAX_3234_h
+#ifndef DS3231_LOGGER_h
+#define DS3231_LOGGER_h
 
 #include "Arduino.h"
 #include <Wire.h>
