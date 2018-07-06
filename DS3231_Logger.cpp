@@ -157,7 +157,7 @@ String DS3231_Logger::GetTime(int mode)
 		temp.concat(TimeDateStr[1]);
 		temp.concat("/") ;
 		temp.concat(TimeDateStr[2]);
-		temp.concat("     ") ;
+		temp.concat(" ") ;
 		temp.concat(TimeDateStr[3]);
 		temp.concat(":") ;
 		temp.concat(TimeDateStr[4]);
@@ -181,7 +181,7 @@ String DS3231_Logger::GetTime(int mode)
 		temp.concat(TimeDateStr[2]);
 		temp.concat("/") ;
 		temp.concat(TimeDateStr[0]);
-		temp.concat("     ") ;
+		temp.concat(" ") ;
 		temp.concat(TimeDateStr[3]);
 		temp.concat(":") ;
 		temp.concat(TimeDateStr[4]);
@@ -197,7 +197,7 @@ String DS3231_Logger::GetTime(int mode)
 		temp.concat(TimeDateStr[2]);
 		temp.concat("/") ;
 		temp.concat(TimeDateStr[0]);
-		temp.concat("     ") ;
+		temp.concat(" ") ;
 		temp.concat(TimeDate[3] % 12);
 		temp.concat(":") ;
 		temp.concat(TimeDateStr[4]);
@@ -223,7 +223,7 @@ String DS3231_Logger::GetTime(int mode)
 		temp.concat(TimeDateStr[6]);
 		temp.concat(".") ;
 		temp.concat(DayOfYear);
-		temp.concat("     ") ;
+		temp.concat(" ") ;
 		temp.concat(TimeDateStr[2]);
 		temp.concat(".") ;
 		temp.concat(TimeDateStr[1]);
