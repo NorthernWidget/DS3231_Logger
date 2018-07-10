@@ -69,56 +69,69 @@ int DS3231_Logger::SetTime(int Year, int Month, int Day, int Hour, int Min, int 
   //Read back time to test result of write??
 }
 
-String DS3231_Logger::GetTime(int mode)
+void DS3231_Logger::GetTimeArray() // DateTime instead of TimeDate?
+{
+	int TimeDate [7]; //second,minute,hour,null,day,month,year	
+	Wire.beginTransmission(ADR); //Ask 1 byte of data 
+	Wire.write(0x00); //Read values starting at reg 0x00
+	Wire.endTransmission();
+	Wire.requestFrom(ADR, 7);	
+	for(int i=0; i<=6;i++){
+		if(i==3) {
+			i++;
+			Wire.read();
+		}
+		// digitalWrite(CS, LOW);
+		// SPI.transfer(i+0x00); 
+		// unsigned int n = SPI.transfer(0x00);        
+		// digitalWrite(CS, HIGH);
+
+		unsigned int n = Wire.read(); //Read value of reg
+		// Wire.endTransmission(); 
+
+		//Process results
+		int a=n & B00001111;    
+		if(i==2){	
+			int b=(n & B00110000)>>4; //24 hour mode
+			if(b==B00000010)
+				b=20;        
+			else if(b==B00000001)
+				b=10;
+			TimeDate[i]=a+b;
+		}
+		else if(i==4){
+			int b=(n & B00110000)>>4;
+			TimeDate[i]=a+b*10;
+		}
+		else if(i==5){
+			int b=(n & B00010000)>>4;
+			TimeDate[i]=a+b*10;
+		}
+		else if(i==6){
+			int b=(n & B11110000)>>4;
+			TimeDate[i]=a+b*10;
+		}
+		else{	
+			int b=(n & B01110000)>>4;
+			TimeDate[i]=a+b*10;	
+		}
+	}
+
+	Time_Date[0] = TimeDate[6];
+	Time_Date[1] = TimeDate[5];
+	Time_Date[2] = TimeDate[4];
+	Time_Date[3] = TimeDate[2];
+	Time_Date[4] = TimeDate[1];
+	Time_Date[5] = TimeDate[0];
+
+}
+
+String DS3231_Logger::GetTime(int mode) // Should be GetTimeString?
 {
 	// SPI.setDataMode(SPI_MODE1); 
 	String temp;
-		int TimeDate [7]; //second,minute,hour,null,day,month,year	
-		Wire.beginTransmission(ADR); //Ask 1 byte of data 
-		Wire.write(0x00); //Read values starting at reg 0x00
-		Wire.endTransmission();
-		Wire.requestFrom(ADR, 7);	
-		for(int i=0; i<=6;i++){
-			if(i==3) {
-				i++;
-				Wire.read();
-			}
-			// digitalWrite(CS, LOW);
-			// SPI.transfer(i+0x00); 
-			// unsigned int n = SPI.transfer(0x00);        
-			// digitalWrite(CS, HIGH);
-
-			unsigned int n = Wire.read(); //Read value of reg
-			// Wire.endTransmission(); 
-
-			//Process results
-			int a=n & B00001111;    
-			if(i==2){	
-				int b=(n & B00110000)>>4; //24 hour mode
-				if(b==B00000010)
-					b=20;        
-				else if(b==B00000001)
-					b=10;
-				TimeDate[i]=a+b;
-			}
-			else if(i==4){
-				int b=(n & B00110000)>>4;
-				TimeDate[i]=a+b*10;
-			}
-			else if(i==5){
-				int b=(n & B00010000)>>4;
-				TimeDate[i]=a+b*10;
-			}
-			else if(i==6){
-				int b=(n & B11110000)>>4;
-				TimeDate[i]=a+b*10;
-			}
-			else{	
-				int b=(n & B01110000)>>4;
-				TimeDate[i]=a+b*10;	
-				}
-		}
-
+	GetTimeArray();
+	
 	// temp.concat(TimeDate[4]);
 	// temp.concat("/") ;
 	// temp.concat(TimeDate[5]);
@@ -130,24 +143,17 @@ String DS3231_Logger::GetTime(int mode)
 	// temp.concat(TimeDate[1]);
 	// temp.concat(":") ;
 	// temp.concat(TimeDate[0]);
- //  	return(temp);
+  //  	return(temp);
 
-		Time_Date[0] = TimeDate[6];
-		Time_Date[1] = TimeDate[5];
-		Time_Date[2] = TimeDate[4];
-		Time_Date[3] = TimeDate[2];
-		Time_Date[4] = TimeDate[1];
-		Time_Date[5] = TimeDate[0];
-
-		String TimeDateStr[7];
-		for(int i = 0; i < 6; i++) {
-			TimeDateStr[i] = String(Time_Date[i]);
-			if(TimeDateStr[i].length() < 2) {
-				TimeDateStr[i] = "0" + TimeDateStr[i];
-			}
-			// Serial.println(TimeDateStr[i]); //DEBUG!
+	String TimeDateStr[7];
+	for(int i = 0; i < 6; i++) {
+		TimeDateStr[i] = String(Time_Date[i]);
+		if(TimeDateStr[i].length() < 2) {
+			TimeDateStr[i] = "0" + TimeDateStr[i];
 		}
-		TimeDateStr[0] = "20" + TimeDateStr[0];
+		// Serial.println(TimeDateStr[i]); //DEBUG!
+	}
+	TimeDateStr[0] = "20" + TimeDateStr[0];
 
 	//Format raw results into appropriate string
 	if(mode == 0) //Return in order Year, Month, Day, Hour, Minute, Second (Scientific Style)
@@ -166,7 +172,7 @@ String DS3231_Logger::GetTime(int mode)
 	  	return(temp);
 	}
 
-	if(mode == 1) //Return in order Month, Day, Year, Hour, Minute, Second (US Civilian Style)
+	else if(mode == 1) //Return in order Month, Day, Year, Hour, Minute, Second (US Civilian Style)
 	{
 		// Serial.println(TimeDate[6]); //DEBUG
 		// Serial.println(TimeDate[5]); //DEBUG
@@ -190,7 +196,7 @@ String DS3231_Logger::GetTime(int mode)
 	  	return(temp);
 	}
 
-	if(mode == 2) //Return in order Month, Day, Year, Hour (12 hour), Minute, Second
+	else if(mode == 2) //Return in order Month, Day, Year, Hour (12 hour), Minute, Second
 	{
 		temp.concat(TimeDateStr[1]);
 		temp.concat("/") ;
@@ -208,7 +214,7 @@ String DS3231_Logger::GetTime(int mode)
 	  	return(temp);
 	}
 
-	if(mode == 1701) //Returns in order Year, Day (of year), Hour, Minute, Second (Stardate)
+	else if(mode == 1701) //Returns in order Year, Day (of year), Hour, Minute, Second (Stardate)
 	{
 		int DayOfYear = 0;
 		int MonthDay[13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
@@ -302,7 +308,7 @@ float DS3231_Logger::GetTemp()
 
 int DS3231_Logger::GetValue(int n)	// n = 0:Year, 1:Month, 2:Day, 3:Hour, 4:Minute, 5:Second
 {
-	GetTime(0); //Update time
+	GetTimeArray(0); //Update time
 	return Time_Date[n]; //Return desired value 
 }
 
