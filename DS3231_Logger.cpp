@@ -117,13 +117,13 @@ void DS3231_Logger::GetTimeArray() // DateTime instead of TimeDate?
 		}
 	}
 
-	Time_Date[0] = TimeDate[6];
+	Time_Date[0] = TimeDate[6] + 2000;
 	Time_Date[1] = TimeDate[5];
 	Time_Date[2] = TimeDate[4];
 	Time_Date[3] = TimeDate[2];
 	Time_Date[4] = TimeDate[1];
 	Time_Date[5] = TimeDate[0];
-
+	
 }
 
 String DS3231_Logger::GetTime(int mode) // Should be GetTimeString?
@@ -153,7 +153,6 @@ String DS3231_Logger::GetTime(int mode) // Should be GetTimeString?
 		}
 		// Serial.println(TimeDateStr[i]); //DEBUG!
 	}
-	TimeDateStr[0] = "20" + TimeDateStr[0];
 
 	//Format raw results into appropriate string
 	if(mode == 0) //Return in order Year, Month, Day, Hour, Minute, Second (Scientific Style)
