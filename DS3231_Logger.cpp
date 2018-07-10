@@ -240,6 +240,17 @@ String DS3231_Logger::GetTime(int mode) // Should be GetTimeString?
 
 	else return("Invalid Input");
 }
+	
+uint32_t DS3231_Logger::GetSecondsSinceMidnight(int mode){
+
+	  uint32_t seconds_since_midnight;
+	  seconds_since_midnight = TimeDateStr[3] * 3600 + \
+	                           TimeDateStr[4] * 60 + \
+	                           TimeDateStr[5];
+    return seconds_since_midnight;
+    
+}
+
 
 // int MAX_3234::GetDate()
 // {
