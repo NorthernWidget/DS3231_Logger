@@ -308,6 +308,30 @@ int DS3231_Logger::GetValue(int n)	// n = 0:Year, 1:Month, 2:Day, 3:Hour, 4:Minu
 
 int DS3231_Logger::SetAlarm(unsigned int Seconds) { //Set alarm from current time to x seconds from current time 
 	//DEFINE LIMITS FOR FUNCTION!!
+
+	if(Seconds == 60) {
+		uint8_t AlarmMask = 0x07; //nibble for A1Mx values
+
+		// Wire.beginTransmission(ADR);
+		// Wire.write(0x0E); //Write values to control reg
+		// Wire.write(0x40); //Turn on 1 Hz square wave
+		// Wire.endTransmission(); 
+
+		Wire.beginTransmission(ADR);
+		Wire.write(0x0E); //Write values to control reg
+		Wire.write(0x06); //Turn on INTCN and Alarm 2
+		Wire.endTransmission(); 
+
+		for(int i=0; i < 3;i++){
+			Wire.beginTransmission(ADR);
+			Wire.write(0x0B + i); //Write values starting at reg 0x0B
+			// Wire.write(((AlarmMask & (1 << i)) << 8)); //Write time date values into regs
+			Wire.write(0x80); 
+			Wire.endTransmission(); //return result of begin, reading is optional
+		}
+	}
+
+	else {
 	//Currently can not set timer for more than 24 hours
 	uint8_t AlarmMask = 0x08; //nibble for A1Mx values
 	uint8_t DY = 0; //DY/DT value 
@@ -364,7 +388,8 @@ int DS3231_Logger::SetAlarm(unsigned int Seconds) { //Set alarm from current tim
 		Wire.endTransmission(); //return result of begin, reading is optional
 		Offset++;
 		// Serial.println(AlarmTime[i], HEX); //DEBUG!
-  }
+	}
+	}
 
   ClearAlarm();
 }
