@@ -288,16 +288,16 @@ float DS3231_Logger::GetTemp()
 	Wire.endTransmission();
 
 	Wire.requestFrom(ADR, 2);
-	int TempHigh = Wire.read(); //Get high reg of temp data
-	int TempLow = Wire.read();	//Get low reg of temp data
+	uint8_t TempHigh = Wire.read(); //Get high reg of temp data
+	uint8_t TempLow = Wire.read();	//Get low reg of temp data
 
 	if(bitRead(TempHigh, 7) == 1) {
-	TempHigh = (~TempHigh) + 1;
-	Temp = float(-1)*(TempHigh + 0.25*float(TempLow >> 6)); //Temp = -(Whole + 2^-2 x Frac)
+	TempHigh = (~TempHigh) + 1;  //Take 2s complement of whole temp value
+	Temp = -1.0*float(TempHigh + 0.25*float(TempLow >> 6)); //Temp = -(Whole + 2^-2 x Frac)
 	}
 	else Temp = float(TempHigh) + 0.25*float(TempLow >> 6);	//Temp = (Whole + 2^-2 x Frac)
 
-	return Temp;
+	return Temp; 
 }
 
 int DS3231_Logger::GetValue(int n)	// n = 0:Year, 1:Month, 2:Day, 3:Hour, 4:Minute, 5:Second
