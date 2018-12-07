@@ -322,6 +322,12 @@ int DS3231_Logger::SetAlarm(unsigned int Seconds) { //Set alarm from current tim
 		Wire.write(0x06); //Turn on INTCN and Alarm 2
 		Wire.endTransmission(); 
 
+		//DEBUG!
+		Wire.beginTransmission(ADR);
+		Wire.write(0x0F); //Write values to control reg
+		Wire.write(0x00); //Clear any alarm flags, set oscilator to run
+		Wire.endTransmission(); 
+
 		for(int i=0; i < 3;i++){
 			Wire.beginTransmission(ADR);
 			Wire.write(0x0B + i); //Write values starting at reg 0x0B
