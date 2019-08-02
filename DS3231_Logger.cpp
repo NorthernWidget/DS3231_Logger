@@ -344,9 +344,10 @@ int DS3231_Logger::SetAlarm(unsigned int Seconds) { //Set alarm from current tim
 	GetTime(0);
 
 	int AlarmTime[7] = {Time_Date[5], Time_Date[4], Time_Date[3], 0, Time_Date[2], Time_Date[1], Time_Date[0]};
-	int AlarmVal[7] = {Seconds % 60, ((Seconds - (Seconds % 60))/60) % 60, ((Seconds - (Seconds % 3600))/3600) % 24, 0, ((Seconds - (Seconds % 86400))/86400), 0, 0};
+	int AlarmVal[7] = {Seconds % 60, ((Seconds - (Seconds % 60))/60) % 60, ((Seconds - (Seconds % 3600))/3600) % 24, 0, ((Seconds - (Seconds % 86400))/86400), 0, 0};  //Remove unused elements?? FIX!
 	int CarryIn = 0; //Carry value
 	int CarryOut = 0; 
+	int MonthDay[13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};  //Use??
 
 	Wire.beginTransmission(ADR);
 	Wire.write(0x0E); //Write values to control reg
@@ -370,14 +371,34 @@ int DS3231_Logger::SetAlarm(unsigned int Seconds) { //Set alarm from current tim
 	AlarmTime[2] = (AlarmTime[2] + AlarmVal[2] + CarryIn) % 24;
 	CarryIn = CarryOut; //Copy over prevous carry
 
-	//Calc days (unused prsently)
-	AlarmTime[4] = (AlarmTime[4] + AlarmVal[4] + CarryIn);
+	//Calc days 
+	if(AlarmTime[4] + AlarmVal[4] + CarryIn > MonthDay[AlarmTime[5]]) CarryOut = 1;  //Carry out if result pushes you beyond current month 
+	else CarryOut = 0;
+	Serial.println(AlarmTime[4]); //DEBUG!
+	Serial.println(AlarmVal[4]); //DEBUG!
+	Serial.println(CarryIn); //DEBUG!
+	AlarmTime[4] = (AlarmTime[4] + AlarmVal[4] + CarryIn) % (MonthDay[AlarmTime[5]] + 1);
+	if(AlarmTime[4] == 0) AlarmTime[4] = 1; //FIX! Find more elegant way to do this
+	Serial.println(AlarmTime[4]); //DEBUG!
+	// CarryIn = CarryOut; //Copy over previous carry
+
+	// //Calc months
+	// int YearLength = 365;
+	// if(AlarmVal[5] % 4 == 0) YearLength = 366; //Account for leap year
+	// if(AlarmTime[5] + AlarmVal[5] + CarryIn > YearLength) CarryOut = 1;
+	// else CarryOut = 0;
+	// AlarmTime[5] = (AlarmTime[5] + AlarmVal[5] + CarryIn);
+	// CarryIn = CarryOut; //Copy over previous carry
+
+	// //Calc years
+	// AlarmTime[6] = (AlarmTime[6] + AlarmVal[6] + CarryIn); //No rollover potential //Add out of range notification??
+
+
 	//ADD FAILURE NOTIFICATION FOR OUT OF RANGE??
 
 	int Offset = 0;
 	for(int i=0; i<=6;i++){
-		if(i==3)
-			i++;
+		if(i==3) i++;
 		int b= AlarmTime[i]/10;
 		int a= AlarmTime[i]-b*10;
 		if(i==2){
