@@ -26,14 +26,6 @@ int DS3231_Logger::Begin(void)
 {
 	Wire.begin();
 
-	// Serial.print("Stat = "); //DEBUG!
-	// Wire.beginTransmission(ADR);
-	// Wire.write(0x0F); //Write values to Control reg
-	// Wire.endTransmission(); //return result of begin, reading is optional
-
-	// Wire.requestFrom(ADR, 1);
-	// Serial.println(Wire.read(), HEX);  //DEBUG!
-
 	Wire.beginTransmission(ADR);
 	Wire.write(0x0E); //Write values to Control reg
 	Wire.write(0x24); //Start oscilator, turn off BBSQW, Turn off alarms, turn on convert
@@ -42,7 +34,6 @@ int DS3231_Logger::Begin(void)
 
 int DS3231_Logger::SetTime(int Year, int Month, int Day, int Hour, int Min, int Sec)
 {
-	// SPI.setDataMode(SPI_MODE1); 
 	if(Year > 999) {
 		Year = Year - 2000; //FIX! Add compnesation for centry 
 	}
@@ -71,7 +62,6 @@ int DS3231_Logger::SetTime(int Year, int Month, int Day, int Hour, int Min, int 
 
 String DS3231_Logger::GetTime(int mode)
 {
-	// SPI.setDataMode(SPI_MODE1); 
 	String temp;
 		int TimeDate [7]; //second,minute,hour,null,day,month,year	
 		Wire.beginTransmission(ADR); //Ask 1 byte of data 
@@ -83,13 +73,8 @@ String DS3231_Logger::GetTime(int mode)
 				i++;
 				Wire.read();
 			}
-			// digitalWrite(CS, LOW);
-			// SPI.transfer(i+0x00); 
-			// unsigned int n = SPI.transfer(0x00);        
-			// digitalWrite(CS, HIGH);
 
 			unsigned int n = Wire.read(); //Read value of reg
-			// Wire.endTransmission(); 
 
 			//Process results
 			int a=n & B00001111;    
@@ -118,19 +103,6 @@ String DS3231_Logger::GetTime(int mode)
 				TimeDate[i]=a+b*10;	
 				}
 		}
-
-	// temp.concat(TimeDate[4]);
-	// temp.concat("/") ;
-	// temp.concat(TimeDate[5]);
-	// temp.concat("/") ;
-	// temp.concat(TimeDate[6]);
-	// temp.concat("     ") ;
-	// temp.concat(TimeDate[2]);
-	// temp.concat(":") ;
-	// temp.concat(TimeDate[1]);
-	// temp.concat(":") ;
-	// temp.concat(TimeDate[0]);
- //  	return(temp);
 
 		Time_Date[0] = TimeDate[6];
 		Time_Date[1] = TimeDate[5];
@@ -168,13 +140,6 @@ String DS3231_Logger::GetTime(int mode)
 
 	if(mode == 1) //Return in order Month, Day, Year, Hour, Minute, Second (US Civilian Style)
 	{
-		// Serial.println(TimeDate[6]); //DEBUG
-		// Serial.println(TimeDate[5]); //DEBUG
-		// Serial.println(TimeDate[4]); //DEBUG
-
-		// Serial.println(TimeDateStr[6]); //DEBUG
-		// Serial.println(TimeDateStr[5]); //DEBUG
-		// Serial.println(TimeDateStr[4]); //DEBUG
 
 		temp.concat(TimeDateStr[1]);
 		temp.concat("/") ;
@@ -234,51 +199,6 @@ String DS3231_Logger::GetTime(int mode)
 
 	else return("Invalid Input");
 }
-
-// int MAX_3234::GetDate()
-// {
-// 	String temp;
-// 		int TimeDate [7]; //second,minute,hour,null,day,month,year		
-// 		for(int i=0; i<=6;i++){
-// 			if(i==3)
-// 				i++;
-// 			digitalWrite(cs, LOW);
-// 			SPI.transfer(i+0x00); 
-// 			unsigned int n = SPI.transfer(0x00);        
-// 			digitalWrite(cs, HIGH);
-// 			int a=n & B00001111;    
-// 			if(i==2){	
-// 				int b=(n & B00110000)>>4; //24 hour mode
-// 				if(b==B00000010)
-// 					b=20;        
-// 				else if(b==B00000001)
-// 					b=10;
-// 				TimeDate[i]=a+b;
-// 			}
-// 			else if(i==4){
-// 				int b=(n & B00110000)>>4;
-// 				TimeDate[i]=a+b*10;
-// 			}
-// 			else if(i==5){
-// 				int b=(n & B00010000)>>4;
-// 				TimeDate[i]=a+b*10;
-// 			}
-// 			else if(i==6){
-// 				int b=(n & B11110000)>>4;
-// 				TimeDate[i]=a+b*10;
-// 			}
-// 			else{	
-// 				int b=(n & B01110000)>>4;
-// 				TimeDate[i]=a+b*10;	
-// 				}
-// 		}
-// 		temp.concat(TimeDate[6]);
-// 		temp.concat("/") ;
-// 		temp.concat(TimeDate[5]);
-// 		temp.concat("/") ;
-// 		temp.concat(TimeDate[4]);
-// 	  	return(TimeDate);
-// }
 
 float DS3231_Logger::GetTemp()
 {
@@ -374,24 +294,8 @@ int DS3231_Logger::SetAlarm(unsigned int Seconds) { //Set alarm from current tim
 	//Calc days 
 	if(AlarmTime[4] + AlarmVal[4] + CarryIn > MonthDay[AlarmTime[5]]) CarryOut = 1;  //Carry out if result pushes you beyond current month 
 	else CarryOut = 0;
-	// Serial.println(AlarmTime[4]); //DEBUG!
-	// Serial.println(AlarmVal[4]); //DEBUG!
-	// Serial.println(CarryIn); //DEBUG!
 	AlarmTime[4] = (AlarmTime[4] + AlarmVal[4] + CarryIn) % (MonthDay[AlarmTime[5]] + 1);
 	if(AlarmTime[4] == 0) AlarmTime[4] = 1; //FIX! Find more elegant way to do this
-	// Serial.println(AlarmTime[4]); //DEBUG!
-	// CarryIn = CarryOut; //Copy over previous carry
-
-	// //Calc months
-	// int YearLength = 365;
-	// if(AlarmVal[5] % 4 == 0) YearLength = 366; //Account for leap year
-	// if(AlarmTime[5] + AlarmVal[5] + CarryIn > YearLength) CarryOut = 1;
-	// else CarryOut = 0;
-	// AlarmTime[5] = (AlarmTime[5] + AlarmVal[5] + CarryIn);
-	// CarryIn = CarryOut; //Copy over previous carry
-
-	// //Calc years
-	// AlarmTime[6] = (AlarmTime[6] + AlarmVal[6] + CarryIn); //No rollover potential //Add out of range notification??
 
 
 	//ADD FAILURE NOTIFICATION FOR OUT OF RANGE??
@@ -414,7 +318,6 @@ int DS3231_Logger::SetAlarm(unsigned int Seconds) { //Set alarm from current tim
 		Wire.write(AlarmTime[i] | ((AlarmMask & (1 << Offset)) << 8)); //Write time date values into regs
 		Wire.endTransmission(); //return result of begin, reading is optional
 		Offset++;
-		// Serial.println(AlarmTime[i], HEX); //DEBUG!
 	}
 	}
 

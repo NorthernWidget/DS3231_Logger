@@ -38,8 +38,6 @@ class DS3231_Logger
 		int SetAlarm(unsigned int Seconds);
 		int ClearAlarm();
 
-		//int GetTime();
-		//String ToString();
 	private:
 		int ADR = 0x68; //Address of DS3231 (non-variable)
 		int Time_Date[6]; //Store date time values of integers 
