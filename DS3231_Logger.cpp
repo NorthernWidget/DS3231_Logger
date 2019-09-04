@@ -374,12 +374,12 @@ int DS3231_Logger::SetAlarm(unsigned int Seconds) { //Set alarm from current tim
 	//Calc days 
 	if(AlarmTime[4] + AlarmVal[4] + CarryIn > MonthDay[AlarmTime[5]]) CarryOut = 1;  //Carry out if result pushes you beyond current month 
 	else CarryOut = 0;
-	Serial.println(AlarmTime[4]); //DEBUG!
-	Serial.println(AlarmVal[4]); //DEBUG!
-	Serial.println(CarryIn); //DEBUG!
+	// Serial.println(AlarmTime[4]); //DEBUG!
+	// Serial.println(AlarmVal[4]); //DEBUG!
+	// Serial.println(CarryIn); //DEBUG!
 	AlarmTime[4] = (AlarmTime[4] + AlarmVal[4] + CarryIn) % (MonthDay[AlarmTime[5]] + 1);
 	if(AlarmTime[4] == 0) AlarmTime[4] = 1; //FIX! Find more elegant way to do this
-	Serial.println(AlarmTime[4]); //DEBUG!
+	// Serial.println(AlarmTime[4]); //DEBUG!
 	// CarryIn = CarryOut; //Copy over previous carry
 
 	// //Calc months
