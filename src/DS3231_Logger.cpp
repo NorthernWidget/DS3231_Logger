@@ -268,6 +268,8 @@ int DS3231_Logger::SetAlarm(unsigned int Seconds) { //Set alarm from current tim
 	int CarryIn = 0; //Carry value
 	int CarryOut = 0; 
 	int MonthDay[13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};  //Use??
+	if(AlarmTime[6] % 400 == 0) MonthDay[2] = 29; //If year is divisable by 400, is leap year, correct days in February
+	else if((AlarmTime[6] % 4 == 0) && (AlarmTime[6] % 100 != 0)) MonthDay[2] = 29; //Otherwise, if IS dividsable by 4, but NOT multiple of 100, is leap year, correct days in February
 
 	Wire.beginTransmission(ADR);
 	Wire.write(0x0E); //Write values to control reg
