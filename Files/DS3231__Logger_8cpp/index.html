@@ -1,0 +1,651 @@
+
+
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.28.1 by Michael Rose
+  Copyright 2013-2026 Michael Rose - mademistakes.com | @mmistakes
+  Copyright 2024-2026 iBug - ibugone.com | @iBug
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+
+<html lang="en" class="no-js" dir="ltr">
+  <head>
+    
+<meta charset="utf-8">
+
+
+<!-- begin _includes/seo.html --><title>src/DS3231_Logger.cpp - DS3231_Logger Library</title>
+<meta name="description" content="Interface for DS3231 RTC focused on data logging applications">
+
+
+  <meta name="author" content="Northern Widget">
+  
+
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="DS3231_Logger Library">
+<meta property="og:title" content="src/DS3231_Logger.cpp">
+<meta property="og:url" content="https://docs.northernwidget.com/DS3231_Logger/Files/DS3231__Logger_8cpp/">
+
+
+  <meta property="og:description" content="Interface for DS3231 RTC focused on data logging applications">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="canonical" href="https://docs.northernwidget.com/DS3231_Logger/Files/DS3231__Logger_8cpp/">
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/DS3231_Logger/feed.xml" type="application/atom+xml" rel="alternate" title="DS3231_Logger Library Feed">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+  
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/DS3231_Logger/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    
+<nav class="skip-links" aria-label="Skip links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav" aria-label="Primary navigation">
+        
+        <a class="site-title" href="/DS3231_Logger/">
+          DS3231_Logger Library
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a
+                href="https://mmistakes.github.io/minimal-mistakes/docs/quick-start-guide/"
+                
+                
+              >Quick-Start Guide</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+
+
+
+
+<div id="main" role="main">
+  
+
+  <div class="sidebar sticky">
+  
+  
+    
+      
+      
+      
+      
+    
+    
+      
+<nav class="nav__list">
+  
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">Toggle Menu</label>
+  <ul class="nav__items">
+    
+      
+      
+        <li>
+          
+            <a href="/DS3231_Logger/"><span class="nav__sub-title">Overview</span></a>
+          
+
+          
+        </li>
+      
+        <li>
+          
+            <a href="/DS3231_Logger/Classes/classDS3231__Logger/"><span class="nav__sub-title">DS3231_Logger Class</span></a>
+          
+
+          
+        </li>
+      
+        <li>
+          
+            <a href="/DS3231_Logger/Classes/index_classes/"><span class="nav__sub-title">Classes</span></a>
+          
+
+          
+        </li>
+      
+        <li>
+          
+            <a href="/DS3231_Logger/Files/index_files/"><span class="nav__sub-title">Files</span></a>
+          
+
+          
+        </li>
+      
+    
+  </ul>
+</nav>
+
+    
+  
+  
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="src/DS3231_Logger.cpp">
+    
+    
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title p-name" itemprop="headline">
+            <a href="https://docs.northernwidget.com/DS3231_Logger/Files/DS3231__Logger_8cpp/" itemprop="url">src/DS3231_Logger.cpp
+</a>
+          </h1>
+          
+
+
+
+        </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc" aria-label="Table of contents">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#source-code">Source code</a></li></ul>
+            </nav>
+          </aside>
+        
+        <h2 id="source-code">Source code</h2>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/******************************************************************************
+DS3231_Logger.cpp
+A simplified library for the DS3231, focused on data logger applications
+Bobby Schulz @ Northern Widget LLC
+4/4/2018
+
+The DS3231 is a high accuracy tempurature compensated RTC. This chip allows for time to be accurately kept
+over long periods of time, and waking up a logger device when required to take measurments or tend to sensors
+
+"That's not fair. That's not fair at all. There was time now. There was, was all the time I needed..."
+-Henery Bemis
+
+Distributed as-is; no warranty is given.
+******************************************************************************/</span>
+
+<span class="cp">#include</span> <span class="cpf">"Arduino.h"</span><span class="cp">
+#include</span> <span class="cpf">&lt;Wire.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;DS3231_Logger.h&gt;</span><span class="cp">
+</span>
+<span class="n">DS3231_Logger</span><span class="o">::</span><span class="n">DS3231_Logger</span><span class="p">()</span>
+<span class="p">{</span>
+
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="n">DS3231_Logger</span><span class="o">::</span><span class="n">begin</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">Wire</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+
+    <span class="n">Wire</span><span class="p">.</span><span class="n">beginTransmission</span><span class="p">(</span><span class="n">ADR</span><span class="p">);</span>
+    <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="mh">0x0E</span><span class="p">);</span> <span class="c1">//Write values to Control reg</span>
+    <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="mh">0x24</span><span class="p">);</span> <span class="c1">//Start oscilator, turn off BBSQW, Turn off alarms, turn on convert</span>
+    <span class="k">return</span> <span class="n">Wire</span><span class="p">.</span><span class="n">endTransmission</span><span class="p">();</span> <span class="c1">//return result of begin, reading is optional</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="n">DS3231_Logger</span><span class="o">::</span><span class="n">setTime</span><span class="p">(</span><span class="kt">int</span> <span class="n">Year</span><span class="p">,</span> <span class="kt">int</span> <span class="n">Month</span><span class="p">,</span> <span class="kt">int</span> <span class="n">Day</span><span class="p">,</span> <span class="kt">int</span> <span class="n">Hour</span><span class="p">,</span> <span class="kt">int</span> <span class="n">Min</span><span class="p">,</span> <span class="kt">int</span> <span class="n">Sec</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">Year</span> <span class="o">&gt;</span> <span class="mi">999</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">Year</span> <span class="o">=</span> <span class="n">Year</span> <span class="o">-</span> <span class="mi">2000</span><span class="p">;</span> <span class="c1">//FIX! Add compnesation for centry </span>
+    <span class="p">}</span>
+    <span class="kt">int</span> <span class="n">TimeDate</span> <span class="p">[</span><span class="mi">7</span><span class="p">]</span><span class="o">=</span><span class="p">{</span><span class="n">Sec</span><span class="p">,</span><span class="n">Min</span><span class="p">,</span><span class="n">Hour</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">Day</span><span class="p">,</span><span class="n">Month</span><span class="p">,</span><span class="n">Year</span><span class="p">};</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;=</span><span class="mi">6</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">i</span><span class="o">==</span><span class="mi">3</span><span class="p">)</span>
+            <span class="n">i</span><span class="o">++</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">b</span><span class="o">=</span> <span class="n">TimeDate</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">/</span><span class="mi">10</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">a</span><span class="o">=</span> <span class="n">TimeDate</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">b</span><span class="o">*</span><span class="mi">10</span><span class="p">;</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">i</span><span class="o">==</span><span class="mi">2</span><span class="p">){</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">b</span><span class="o">==</span><span class="mi">2</span><span class="p">)</span>
+                <span class="n">b</span><span class="o">=</span><span class="n">B00000010</span><span class="p">;</span>
+            <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">b</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">b</span><span class="o">=</span><span class="n">B00000001</span><span class="p">;</span>
+        <span class="p">}</span>   
+        <span class="n">TimeDate</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span> <span class="n">a</span><span class="o">+</span><span class="p">(</span><span class="n">b</span><span class="o">&lt;&lt;</span><span class="mi">4</span><span class="p">);</span>
+          
+        <span class="n">Wire</span><span class="p">.</span><span class="n">beginTransmission</span><span class="p">(</span><span class="n">ADR</span><span class="p">);</span>
+        <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">i</span><span class="p">);</span> <span class="c1">//Write values starting at reg 0x00</span>
+        <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">TimeDate</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span> <span class="c1">//Write time date values into regs</span>
+        <span class="n">Wire</span><span class="p">.</span><span class="n">endTransmission</span><span class="p">();</span> <span class="c1">//return result of begin, reading is optional</span>
+  <span class="p">}</span>
+
+  <span class="c1">//Read back time to test result of write??</span>
+<span class="p">}</span>
+
+<span class="n">String</span> <span class="n">DS3231_Logger</span><span class="o">::</span><span class="n">getTime</span><span class="p">(</span><span class="kt">int</span> <span class="n">mode</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">String</span> <span class="n">temp</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">TimeDate</span> <span class="p">[</span><span class="mi">7</span><span class="p">];</span> <span class="c1">//second,minute,hour,null,day,month,year  </span>
+        <span class="n">Wire</span><span class="p">.</span><span class="n">beginTransmission</span><span class="p">(</span><span class="n">ADR</span><span class="p">);</span> <span class="c1">//Ask 1 byte of data </span>
+        <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="mh">0x00</span><span class="p">);</span> <span class="c1">//Read values starting at reg 0x00</span>
+        <span class="n">Wire</span><span class="p">.</span><span class="n">endTransmission</span><span class="p">();</span>
+        <span class="n">Wire</span><span class="p">.</span><span class="n">requestFrom</span><span class="p">(</span><span class="n">ADR</span><span class="p">,</span> <span class="mi">7</span><span class="p">);</span>   
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;=</span><span class="mi">6</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">i</span><span class="o">==</span><span class="mi">3</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">i</span><span class="o">++</span><span class="p">;</span>
+                <span class="n">Wire</span><span class="p">.</span><span class="n">read</span><span class="p">();</span>
+            <span class="p">}</span>
+
+            <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="n">Wire</span><span class="p">.</span><span class="n">read</span><span class="p">();</span> <span class="c1">//Read value of reg</span>
+
+            <span class="c1">//Process results</span>
+            <span class="kt">int</span> <span class="n">a</span><span class="o">=</span><span class="n">n</span> <span class="o">&amp;</span> <span class="n">B00001111</span><span class="p">;</span>    
+            <span class="k">if</span><span class="p">(</span><span class="n">i</span><span class="o">==</span><span class="mi">2</span><span class="p">){</span>   
+                <span class="kt">int</span> <span class="n">b</span><span class="o">=</span><span class="p">(</span><span class="n">n</span> <span class="o">&amp;</span> <span class="n">B00110000</span><span class="p">)</span><span class="o">&gt;&gt;</span><span class="mi">4</span><span class="p">;</span> <span class="c1">//24 hour mode</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">b</span><span class="o">==</span><span class="n">B00000010</span><span class="p">)</span>
+                    <span class="n">b</span><span class="o">=</span><span class="mi">20</span><span class="p">;</span>        
+                <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">b</span><span class="o">==</span><span class="n">B00000001</span><span class="p">)</span>
+                    <span class="n">b</span><span class="o">=</span><span class="mi">10</span><span class="p">;</span>
+                <span class="n">TimeDate</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="k">else</span> <span class="nf">if</span><span class="p">(</span><span class="n">i</span><span class="o">==</span><span class="mi">4</span><span class="p">){</span>
+                <span class="kt">int</span> <span class="n">b</span><span class="o">=</span><span class="p">(</span><span class="n">n</span> <span class="o">&amp;</span> <span class="n">B00110000</span><span class="p">)</span><span class="o">&gt;&gt;</span><span class="mi">4</span><span class="p">;</span>
+                <span class="n">TimeDate</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="o">*</span><span class="mi">10</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="k">else</span> <span class="nf">if</span><span class="p">(</span><span class="n">i</span><span class="o">==</span><span class="mi">5</span><span class="p">){</span>
+                <span class="kt">int</span> <span class="n">b</span><span class="o">=</span><span class="p">(</span><span class="n">n</span> <span class="o">&amp;</span> <span class="n">B00010000</span><span class="p">)</span><span class="o">&gt;&gt;</span><span class="mi">4</span><span class="p">;</span>
+                <span class="n">TimeDate</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="o">*</span><span class="mi">10</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="k">else</span> <span class="nf">if</span><span class="p">(</span><span class="n">i</span><span class="o">==</span><span class="mi">6</span><span class="p">){</span>
+                <span class="kt">int</span> <span class="n">b</span><span class="o">=</span><span class="p">(</span><span class="n">n</span> <span class="o">&amp;</span> <span class="n">B11110000</span><span class="p">)</span><span class="o">&gt;&gt;</span><span class="mi">4</span><span class="p">;</span>
+                <span class="n">TimeDate</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="o">*</span><span class="mi">10</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="k">else</span><span class="p">{</span>   
+                <span class="kt">int</span> <span class="n">b</span><span class="o">=</span><span class="p">(</span><span class="n">n</span> <span class="o">&amp;</span> <span class="n">B01110000</span><span class="p">)</span><span class="o">&gt;&gt;</span><span class="mi">4</span><span class="p">;</span>
+                <span class="n">TimeDate</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="o">*</span><span class="mi">10</span><span class="p">;</span> 
+                <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="n">Time_Date</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">TimeDate</span><span class="p">[</span><span class="mi">6</span><span class="p">];</span>
+        <span class="n">Time_Date</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">TimeDate</span><span class="p">[</span><span class="mi">5</span><span class="p">];</span>
+        <span class="n">Time_Date</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">TimeDate</span><span class="p">[</span><span class="mi">4</span><span class="p">];</span>
+        <span class="n">Time_Date</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">TimeDate</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+        <span class="n">Time_Date</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="n">TimeDate</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+        <span class="n">Time_Date</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="n">TimeDate</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+
+        <span class="n">String</span> <span class="n">TimeDateStr</span><span class="p">[</span><span class="mi">7</span><span class="p">];</span>
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">6</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">TimeDateStr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">String</span><span class="p">(</span><span class="n">Time_Date</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">TimeDateStr</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">length</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">TimeDateStr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="s">"0"</span> <span class="o">+</span> <span class="n">TimeDateStr</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+            <span class="p">}</span>
+            <span class="c1">// Serial.println(TimeDateStr[i]); //DEBUG!</span>
+        <span class="p">}</span>
+        <span class="n">TimeDateStr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s">"20"</span> <span class="o">+</span> <span class="n">TimeDateStr</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+
+    <span class="c1">//Format raw results into appropriate string</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">mode</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="c1">//Return in order Year, Month, Day, Hour, Minute, Second (Scientific Style)</span>
+    <span class="p">{</span>
+        <span class="n">temp</span><span class="p">.</span><span class="n">concat</span><span class="p">(</span><span class="n">TimeDateStr</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+        <span class="n">temp</span><span class="p">.</span><span class="n">concat</span><span class="p">(</span><span class="s">"/"</span><span class="p">)</span> <span class="p">;</span>
+        <span class="n">temp</span><span class="p">.</span><span class="n">concat</span><span class="p">(</span><span class="n">TimeDateStr</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+        <span class="n">temp</span><span class="p">.</span><span class="n">concat</span><span class="p">(</span><span class="s">"/"</span><span class="p">)</span> <span class="p">;</span>
+        <span class="n">temp</span><span class="p">.</span><span class="n">concat</span><span class="p">(</span><span class="n">TimeDateStr</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>
+        <span class="n">temp</span><span class="p">.</span><span class="n">concat</span><span class="p">(</span><span class="s">" "</span><span class="p">)</span> <span class="p">;</span>
+        <span class="n">temp</span><span class="p">.</span><span class="n">concat</span><span class="p">(</span><span class="n">TimeDateStr</span><span class="p">[</span><span class="mi">3</span><span class="p">]);</span>
+        <span class="n">temp</span><span class="p">.</span><span class="n">concat</span><span class="p">(</span><span class="s">":"</span><span class="p">)</span> <span class="p">;</span>
+        <span class="n">temp</span><span class="p">.</span><span class="n">concat</span><span class="p">(</span><span class="n">TimeDateStr</span><span class="p">[</span><span class="mi">4</span><span class="p">]);</span>
+        <span class="n">temp</span><span class="p">.</span><span class="n">concat</span><span class="p">(</span><span class="s">":"</span><span class="p">)</span> <span class="p">;</span>
+        <span class="n">temp</span><span class="p">.</span><span class="n">concat</span><span class="p">(</span><span class="n">TimeDateStr</span><span class="p">[</span><span class="mi">5</span><span class="p">]);</span>
+        <span class="k">return</span><span class="p">(</span><span class="n">temp</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="n">mode</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="c1">//Return in order Month, Day, Year, Hour, Minute, Second (US Civilian Style)</span>
+    <span class="p">{</span>
+
+        <span class="n">temp</span><span class="p">.</span><span class="n">concat</span><span class="p">(</span><span class="n">TimeDateStr</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+        <span class="n">temp</span><span class="p">.</span><span class="n">concat</span><span class="p">(</span><span class="s">"/"</span><span class="p">)</span> <span class="p">;</span>
+        <span class="n">temp</span><span class="p">.</span><span class="n">concat</span><span class="p">(</span><span class="n">TimeDateStr</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>
+        <span class="n">temp</span><span class="p">.</span><span class="n">concat</span><span class="p">(</span><span class="s">"/"</span><span class="p">)</span> <span class="p">;</span>
+        <span class="n">temp</span><span class="p">.</span><span class="n">concat</span><span class="p">(</span><span class="n">TimeDateStr</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+        <span class="n">temp</span><span class="p">.</span><span class="n">concat</span><span class="p">(</span><span class="s">" "</span><span class="p">)</span> <span class="p">;</span>
+        <span class="n">temp</span><span class="p">.</span><span class="n">concat</span><span class="p">(</span><span class="n">TimeDateStr</span><span class="p">[</span><span class="mi">3</span><span class="p">]);</span>
+        <span class="n">temp</span><span class="p">.</span><span class="n">concat</span><span class="p">(</span><span class="s">":"</span><span class="p">)</span> <span class="p">;</span>
+        <span class="n">temp</span><span class="p">.</span><span class="n">concat</span><span class="p">(</span><span class="n">TimeDateStr</span><span class="p">[</span><span class="mi">4</span><span class="p">]);</span>
+        <span class="n">temp</span><span class="p">.</span><span class="n">concat</span><span class="p">(</span><span class="s">":"</span><span class="p">)</span> <span class="p">;</span>
+        <span class="n">temp</span><span class="p">.</span><span class="n">concat</span><span class="p">(</span><span class="n">TimeDateStr</span><span class="p">[</span><span class="mi">5</span><span class="p">]);</span>
+        <span class="k">return</span><span class="p">(</span><span class="n">temp</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="n">mode</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span> <span class="c1">//Return in order Month, Day, Year, Hour (12 hour), Minute, Second</span>
+    <span class="p">{</span>
+        <span class="n">temp</span><span class="p">.</span><span class="n">concat</span><span class="p">(</span><span class="n">TimeDateStr</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+        <span class="n">temp</span><span class="p">.</span><span class="n">concat</span><span class="p">(</span><span class="s">"/"</span><span class="p">)</span> <span class="p">;</span>
+        <span class="n">temp</span><span class="p">.</span><span class="n">concat</span><span class="p">(</span><span class="n">TimeDateStr</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>
+        <span class="n">temp</span><span class="p">.</span><span class="n">concat</span><span class="p">(</span><span class="s">"/"</span><span class="p">)</span> <span class="p">;</span>
+        <span class="n">temp</span><span class="p">.</span><span class="n">concat</span><span class="p">(</span><span class="n">TimeDateStr</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+        <span class="n">temp</span><span class="p">.</span><span class="n">concat</span><span class="p">(</span><span class="s">" "</span><span class="p">)</span> <span class="p">;</span>
+        <span class="n">temp</span><span class="p">.</span><span class="n">concat</span><span class="p">(</span><span class="n">TimeDate</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">%</span> <span class="mi">12</span><span class="p">);</span>
+        <span class="n">temp</span><span class="p">.</span><span class="n">concat</span><span class="p">(</span><span class="s">":"</span><span class="p">)</span> <span class="p">;</span>
+        <span class="n">temp</span><span class="p">.</span><span class="n">concat</span><span class="p">(</span><span class="n">TimeDateStr</span><span class="p">[</span><span class="mi">4</span><span class="p">]);</span>
+        <span class="n">temp</span><span class="p">.</span><span class="n">concat</span><span class="p">(</span><span class="s">":"</span><span class="p">)</span> <span class="p">;</span>
+        <span class="n">temp</span><span class="p">.</span><span class="n">concat</span><span class="p">(</span><span class="n">TimeDateStr</span><span class="p">[</span><span class="mi">5</span><span class="p">]);</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">TimeDate</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">12</span><span class="p">)</span> <span class="n">temp</span><span class="p">.</span><span class="n">concat</span><span class="p">(</span><span class="s">" PM"</span><span class="p">);</span>
+        <span class="k">else</span> <span class="n">temp</span><span class="p">.</span><span class="n">concat</span><span class="p">(</span><span class="s">" AM"</span><span class="p">);</span>
+        <span class="k">return</span><span class="p">(</span><span class="n">temp</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="n">mode</span> <span class="o">==</span> <span class="mi">1701</span><span class="p">)</span> <span class="c1">//Returns in order Year, Day (of year), Hour, Minute, Second (Stardate)</span>
+    <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">DayOfYear</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">MonthDay</span><span class="p">[</span><span class="mi">13</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">};</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">TimeDate</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="o">%</span> <span class="mi">4</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="n">MonthDay</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">29</span><span class="p">;</span>
+
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">m</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">m</span> <span class="o">&lt;</span> <span class="n">TimeDate</span><span class="p">[</span><span class="mi">5</span><span class="p">];</span> <span class="n">m</span><span class="o">++</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">DayOfYear</span> <span class="o">=</span> <span class="n">DayOfYear</span> <span class="o">+</span> <span class="n">MonthDay</span><span class="p">[</span><span class="n">m</span><span class="p">];</span>
+        <span class="p">}</span>
+        <span class="n">DayOfYear</span> <span class="o">=</span> <span class="n">DayOfYear</span> <span class="o">+</span> <span class="n">TimeDate</span><span class="p">[</span><span class="mi">4</span><span class="p">];</span>
+
+        <span class="n">temp</span><span class="p">.</span><span class="n">concat</span><span class="p">(</span><span class="n">TimeDateStr</span><span class="p">[</span><span class="mi">6</span><span class="p">]);</span>
+        <span class="n">temp</span><span class="p">.</span><span class="n">concat</span><span class="p">(</span><span class="s">"."</span><span class="p">)</span> <span class="p">;</span>
+        <span class="n">temp</span><span class="p">.</span><span class="n">concat</span><span class="p">(</span><span class="n">DayOfYear</span><span class="p">);</span>
+        <span class="n">temp</span><span class="p">.</span><span class="n">concat</span><span class="p">(</span><span class="s">" "</span><span class="p">)</span> <span class="p">;</span>
+        <span class="n">temp</span><span class="p">.</span><span class="n">concat</span><span class="p">(</span><span class="n">TimeDateStr</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>
+        <span class="n">temp</span><span class="p">.</span><span class="n">concat</span><span class="p">(</span><span class="s">"."</span><span class="p">)</span> <span class="p">;</span>
+        <span class="n">temp</span><span class="p">.</span><span class="n">concat</span><span class="p">(</span><span class="n">TimeDateStr</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+        <span class="n">temp</span><span class="p">.</span><span class="n">concat</span><span class="p">(</span><span class="s">"."</span><span class="p">)</span> <span class="p">;</span>
+        <span class="n">temp</span><span class="p">.</span><span class="n">concat</span><span class="p">(</span><span class="n">TimeDateStr</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+        <span class="k">return</span><span class="p">(</span><span class="n">temp</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">else</span> <span class="nf">return</span><span class="p">(</span><span class="s">"Invalid Input"</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">float</span> <span class="n">DS3231_Logger</span><span class="o">::</span><span class="n">getTemp</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">float</span> <span class="n">Temp</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">Wire</span><span class="p">.</span><span class="n">beginTransmission</span><span class="p">(</span><span class="n">ADR</span><span class="p">);</span>
+    <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="mh">0x11</span><span class="p">);</span> <span class="c1">//Read from reg 0x11</span>
+    <span class="n">Wire</span><span class="p">.</span><span class="n">endTransmission</span><span class="p">();</span>
+
+    <span class="n">Wire</span><span class="p">.</span><span class="n">requestFrom</span><span class="p">(</span><span class="n">ADR</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+    <span class="kt">uint8_t</span> <span class="n">TempHigh</span> <span class="o">=</span> <span class="n">Wire</span><span class="p">.</span><span class="n">read</span><span class="p">();</span> <span class="c1">//Get high reg of temp data</span>
+    <span class="kt">uint8_t</span> <span class="n">TempLow</span> <span class="o">=</span> <span class="n">Wire</span><span class="p">.</span><span class="n">read</span><span class="p">();</span>  <span class="c1">//Get low reg of temp data</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="n">bitRead</span><span class="p">(</span><span class="n">TempHigh</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">TempHigh</span> <span class="o">=</span> <span class="p">(</span><span class="o">~</span><span class="n">TempHigh</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>  <span class="c1">//Take 2s complement of whole temp value</span>
+    <span class="n">Temp</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span><span class="o">*</span><span class="kt">float</span><span class="p">(</span><span class="n">TempHigh</span> <span class="o">+</span> <span class="mf">0.25</span><span class="o">*</span><span class="kt">float</span><span class="p">(</span><span class="n">TempLow</span> <span class="o">&gt;&gt;</span> <span class="mi">6</span><span class="p">));</span> <span class="c1">//Temp = -(Whole + 2^-2 x Frac)</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="n">Temp</span> <span class="o">=</span> <span class="kt">float</span><span class="p">(</span><span class="n">TempHigh</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.25</span><span class="o">*</span><span class="kt">float</span><span class="p">(</span><span class="n">TempLow</span> <span class="o">&gt;&gt;</span> <span class="mi">6</span><span class="p">);</span> <span class="c1">//Temp = (Whole + 2^-2 x Frac)</span>
+
+    <span class="k">return</span> <span class="n">Temp</span><span class="p">;</span> 
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="n">DS3231_Logger</span><span class="o">::</span><span class="n">getValue</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span>  <span class="c1">// n = 0:Year, 1:Month, 2:Day, 3:Hour, 4:Minute, 5:Second</span>
+<span class="p">{</span>
+    <span class="n">getTime</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span> <span class="c1">//Update time</span>
+    <span class="k">return</span> <span class="n">Time_Date</span><span class="p">[</span><span class="n">n</span><span class="p">];</span> <span class="c1">//Return desired value </span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="n">DS3231_Logger</span><span class="o">::</span><span class="n">setAlarm</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">Seconds</span><span class="p">)</span> <span class="p">{</span> <span class="c1">//Set alarm from current time to x seconds from current time </span>
+    <span class="c1">//DEFINE LIMITS FOR FUNCTION!!</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="n">Seconds</span> <span class="o">==</span> <span class="mi">60</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">uint8_t</span> <span class="n">AlarmMask</span> <span class="o">=</span> <span class="mh">0x07</span><span class="p">;</span> <span class="c1">//nibble for A1Mx values</span>
+
+        <span class="c1">// Wire.beginTransmission(ADR);</span>
+        <span class="c1">// Wire.write(0x0E); //Write values to control reg</span>
+        <span class="c1">// Wire.write(0x40); //Turn on 1 Hz square wave</span>
+        <span class="c1">// Wire.endTransmission(); </span>
+
+        <span class="n">Wire</span><span class="p">.</span><span class="n">beginTransmission</span><span class="p">(</span><span class="n">ADR</span><span class="p">);</span>
+        <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="mh">0x0E</span><span class="p">);</span> <span class="c1">//Write values to control reg</span>
+        <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="mh">0x06</span><span class="p">);</span> <span class="c1">//Turn on INTCN and Alarm 2</span>
+        <span class="n">Wire</span><span class="p">.</span><span class="n">endTransmission</span><span class="p">();</span> 
+
+        <span class="c1">//DEBUG!</span>
+        <span class="n">Wire</span><span class="p">.</span><span class="n">beginTransmission</span><span class="p">(</span><span class="n">ADR</span><span class="p">);</span>
+        <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="mh">0x0F</span><span class="p">);</span> <span class="c1">//Write values to control reg</span>
+        <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="mh">0x00</span><span class="p">);</span> <span class="c1">//Clear any alarm flags, set oscilator to run</span>
+        <span class="n">Wire</span><span class="p">.</span><span class="n">endTransmission</span><span class="p">();</span> 
+
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+            <span class="n">Wire</span><span class="p">.</span><span class="n">beginTransmission</span><span class="p">(</span><span class="n">ADR</span><span class="p">);</span>
+            <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="mh">0x0B</span> <span class="o">+</span> <span class="n">i</span><span class="p">);</span> <span class="c1">//Write values starting at reg 0x0B</span>
+            <span class="c1">// Wire.write(((AlarmMask &amp; (1 &lt;&lt; i)) &lt;&lt; 8)); //Write time date values into regs</span>
+            <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="mh">0x80</span><span class="p">);</span> 
+            <span class="n">Wire</span><span class="p">.</span><span class="n">endTransmission</span><span class="p">();</span> <span class="c1">//return result of begin, reading is optional</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">else</span> <span class="p">{</span>
+    <span class="c1">//Currently can not set timer for more than 24 hours</span>
+    <span class="kt">uint8_t</span> <span class="n">AlarmMask</span> <span class="o">=</span> <span class="mh">0x08</span><span class="p">;</span> <span class="c1">//nibble for A1Mx values</span>
+    <span class="kt">uint8_t</span> <span class="n">DY</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">//DY/DT value </span>
+    <span class="n">getTime</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+
+    <span class="kt">int</span> <span class="n">AlarmTime</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">Time_Date</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">Time_Date</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">Time_Date</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Time_Date</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">Time_Date</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">Time_Date</span><span class="p">[</span><span class="mi">0</span><span class="p">]};</span>
+    <span class="kt">int</span> <span class="n">AlarmVal</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">Seconds</span> <span class="o">%</span> <span class="mi">60</span><span class="p">,</span> <span class="p">((</span><span class="n">Seconds</span> <span class="o">-</span> <span class="p">(</span><span class="n">Seconds</span> <span class="o">%</span> <span class="mi">60</span><span class="p">))</span><span class="o">/</span><span class="mi">60</span><span class="p">)</span> <span class="o">%</span> <span class="mi">60</span><span class="p">,</span> <span class="p">((</span><span class="n">Seconds</span> <span class="o">-</span> <span class="p">(</span><span class="n">Seconds</span> <span class="o">%</span> <span class="mi">3600</span><span class="p">))</span><span class="o">/</span><span class="mi">3600</span><span class="p">)</span> <span class="o">%</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">((</span><span class="n">Seconds</span> <span class="o">-</span> <span class="p">(</span><span class="n">Seconds</span> <span class="o">%</span> <span class="mi">86400</span><span class="p">))</span><span class="o">/</span><span class="mi">86400</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">};</span>  <span class="c1">//Remove unused elements?? FIX!</span>
+    <span class="kt">int</span> <span class="n">CarryIn</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">//Carry value</span>
+    <span class="kt">int</span> <span class="n">CarryOut</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> 
+    <span class="kt">int</span> <span class="n">MonthDay</span><span class="p">[</span><span class="mi">13</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">};</span>  <span class="c1">//Use??</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">AlarmTime</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="o">%</span> <span class="mi">400</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="n">MonthDay</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">29</span><span class="p">;</span> <span class="c1">//If year is divisable by 400, is leap year, correct days in February</span>
+    <span class="k">else</span> <span class="k">if</span><span class="p">((</span><span class="n">AlarmTime</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="o">%</span> <span class="mi">4</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">AlarmTime</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">))</span> <span class="n">MonthDay</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">29</span><span class="p">;</span> <span class="c1">//Otherwise, if IS dividsable by 4, but NOT multiple of 100, is leap year, correct days in February</span>
+
+    <span class="n">Wire</span><span class="p">.</span><span class="n">beginTransmission</span><span class="p">(</span><span class="n">ADR</span><span class="p">);</span>
+    <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="mh">0x0E</span><span class="p">);</span> <span class="c1">//Write values to control reg</span>
+    <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="mh">0x05</span><span class="p">);</span> <span class="c1">//Turn on INTCN and Alarm 1</span>
+    <span class="n">Wire</span><span class="p">.</span><span class="n">endTransmission</span><span class="p">();</span> 
+
+    <span class="c1">//Calc seconds</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">AlarmTime</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">AlarmVal</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">60</span><span class="p">)</span> <span class="n">CarryOut</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="n">AlarmTime</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">AlarmTime</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">AlarmVal</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">%</span> <span class="mi">60</span><span class="p">;</span>
+    <span class="n">CarryIn</span> <span class="o">=</span> <span class="n">CarryOut</span><span class="p">;</span> <span class="c1">//Copy over prevous carry</span>
+
+    <span class="c1">//Calc minutes</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">AlarmTime</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">AlarmVal</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">CarryIn</span> <span class="o">&gt;=</span> <span class="mi">60</span><span class="p">)</span> <span class="n">CarryOut</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">else</span> <span class="n">CarryOut</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">AlarmTime</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">AlarmTime</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">AlarmVal</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">CarryIn</span><span class="p">)</span> <span class="o">%</span> <span class="mi">60</span><span class="p">;</span>
+    <span class="n">CarryIn</span> <span class="o">=</span> <span class="n">CarryOut</span><span class="p">;</span> <span class="c1">//Copy over prevous carry</span>
+
+    <span class="c1">//Calc hours</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">AlarmTime</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">AlarmVal</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">CarryIn</span> <span class="o">&gt;=</span> <span class="mi">24</span><span class="p">)</span> <span class="n">CarryOut</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">//OUT OF RANGE??</span>
+    <span class="k">else</span> <span class="n">CarryOut</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">AlarmTime</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">AlarmTime</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">AlarmVal</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">CarryIn</span><span class="p">)</span> <span class="o">%</span> <span class="mi">24</span><span class="p">;</span>
+    <span class="n">CarryIn</span> <span class="o">=</span> <span class="n">CarryOut</span><span class="p">;</span> <span class="c1">//Copy over prevous carry</span>
+
+    <span class="c1">//Calc days </span>
+    <span class="k">if</span><span class="p">(</span><span class="n">AlarmTime</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">+</span> <span class="n">AlarmVal</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">+</span> <span class="n">CarryIn</span> <span class="o">&gt;</span> <span class="n">MonthDay</span><span class="p">[</span><span class="n">AlarmTime</span><span class="p">[</span><span class="mi">5</span><span class="p">]])</span> <span class="n">CarryOut</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>  <span class="c1">//Carry out if result pushes you beyond current month </span>
+    <span class="k">else</span> <span class="n">CarryOut</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">AlarmTime</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">AlarmTime</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">+</span> <span class="n">AlarmVal</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">+</span> <span class="n">CarryIn</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="n">MonthDay</span><span class="p">[</span><span class="n">AlarmTime</span><span class="p">[</span><span class="mi">5</span><span class="p">]]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">AlarmTime</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="n">AlarmTime</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">//FIX! Find more elegant way to do this</span>
+
+
+    <span class="c1">//ADD FAILURE NOTIFICATION FOR OUT OF RANGE??</span>
+
+    <span class="kt">int</span> <span class="n">Offset</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;=</span><span class="mi">6</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">i</span><span class="o">==</span><span class="mi">3</span><span class="p">)</span> <span class="n">i</span><span class="o">++</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">b</span><span class="o">=</span> <span class="n">AlarmTime</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">/</span><span class="mi">10</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">a</span><span class="o">=</span> <span class="n">AlarmTime</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">b</span><span class="o">*</span><span class="mi">10</span><span class="p">;</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">i</span><span class="o">==</span><span class="mi">2</span><span class="p">){</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">b</span><span class="o">==</span><span class="mi">2</span><span class="p">)</span>
+                <span class="n">b</span><span class="o">=</span><span class="n">B00000010</span><span class="p">;</span>
+            <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">b</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">b</span><span class="o">=</span><span class="n">B00000001</span><span class="p">;</span>
+        <span class="p">}</span>   
+        <span class="n">AlarmTime</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span> <span class="n">a</span><span class="o">+</span><span class="p">(</span><span class="n">b</span><span class="o">&lt;&lt;</span><span class="mi">4</span><span class="p">);</span>
+          
+        <span class="n">Wire</span><span class="p">.</span><span class="n">beginTransmission</span><span class="p">(</span><span class="n">ADR</span><span class="p">);</span>
+        <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="mh">0x07</span> <span class="o">+</span> <span class="n">Offset</span><span class="p">);</span> <span class="c1">//Write values starting at reg 0x07</span>
+        <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">AlarmTime</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">|</span> <span class="p">((</span><span class="n">AlarmMask</span> <span class="o">&amp;</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">Offset</span><span class="p">))</span> <span class="o">&lt;&lt;</span> <span class="mi">8</span><span class="p">));</span> <span class="c1">//Write time date values into regs</span>
+        <span class="n">Wire</span><span class="p">.</span><span class="n">endTransmission</span><span class="p">();</span> <span class="c1">//return result of begin, reading is optional</span>
+        <span class="n">Offset</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="p">}</span>
+
+  <span class="n">clearAlarm</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="n">DS3231_Logger</span><span class="o">::</span><span class="n">clearAlarm</span><span class="p">()</span> <span class="p">{</span>  <span class="c1">//Clear registers to stop alarm, must call setAlarm again to get it to turn on again</span>
+    <span class="n">Wire</span><span class="p">.</span><span class="n">beginTransmission</span><span class="p">(</span><span class="n">ADR</span><span class="p">);</span>
+    <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="mh">0x0F</span><span class="p">);</span> <span class="c1">//Write values to status reg</span>
+    <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="mh">0x00</span><span class="p">);</span> <span class="c1">//Clear all flags</span>
+    <span class="n">Wire</span><span class="p">.</span><span class="n">endTransmission</span><span class="p">();</span> <span class="c1">//return result of begin, reading is optional</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<hr />
+
+<p>Updated on 2026-09-22 at 23:10:10 +0000</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+  
+
+  
+
+
+        
+
+
+
+      </footer>
+
+      
+
+      
+
+
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+      
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        
+
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+
+    
+      <li><a href="/DS3231_Logger/feed.xml"><i class="fas fa-fw fa-square-rss" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+
+<div class="page__footer-copyright">&copy; 2026 <a href="https://docs.northernwidget.com">DS3231_Logger Library</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+
+  <script src="/DS3231_Logger/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>
