@@ -1,0 +1,9 @@
+api:
+  - title: "Overview"
+    url: /
+  - title: "DS3231_Logger Class"
+    url: /Classes/classDS3231__Logger/
+  - title: "Classes"
+    url: /Classes/index_classes/
+  - title: "Files"
+    url: /Files/index_files/

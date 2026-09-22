@@ -1,0 +1,26 @@
+theme: minimal-mistakes-jekyll
+plugins:
+  - jekyll-include-cache
+  - jekyll-seo-tag
+
+title: "DS3231_Logger Library"
+description: "Interface for DS3231 RTC focused on data logging applications"
+baseurl: "/DS3231_Logger"
+url: "https://docs.northernwidget.com"
+permalink: /:path/
+
+minimal_mistakes_skin: "default"
+
+author:
+  name: "Northern Widget"
+  url: "https://northernwidget.com"
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: single
+      toc: true
+      toc_sticky: true
+      sidebar:
+        nav: api
