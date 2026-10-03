@@ -60,145 +60,124 @@ int DS3231_Logger::setTime(int Year, int Month, int Day, int Hour, int Min, int 
   //Read back time to test result of write??
 }
 
-String DS3231_Logger::getTime(int mode)
+void DS3231_Logger::readTime()
 {
-	String temp;
-		int TimeDate [7]; //second,minute,hour,null,day,month,year	
-		Wire.beginTransmission(ADR); //Ask 1 byte of data 
-		Wire.write(0x00); //Read values starting at reg 0x00
-		Wire.endTransmission();
-		Wire.requestFrom(ADR, 7);	
-		for(int i=0; i<=6;i++){
-			if(i==3) {
-				i++;
-				Wire.read();
-			}
-
-			unsigned int n = Wire.read(); //Read value of reg
-
-			//Process results
-			int a=n & B00001111;    
-			if(i==2){	
-				int b=(n & B00110000)>>4; //24 hour mode
-				if(b==B00000010)
-					b=20;        
-				else if(b==B00000001)
-					b=10;
-				TimeDate[i]=a+b;
-			}
-			else if(i==4){
-				int b=(n & B00110000)>>4;
-				TimeDate[i]=a+b*10;
-			}
-			else if(i==5){
-				int b=(n & B00010000)>>4;
-				TimeDate[i]=a+b*10;
-			}
-			else if(i==6){
-				int b=(n & B11110000)>>4;
-				TimeDate[i]=a+b*10;
-			}
-			else{	
-				int b=(n & B01110000)>>4;
-				TimeDate[i]=a+b*10;	
-				}
+	int TimeDate [7]; //second,minute,hour,null,day,month,year
+	Wire.beginTransmission(ADR); //Ask 1 byte of data
+	Wire.write(0x00); //Read values starting at reg 0x00
+	Wire.endTransmission();
+	Wire.requestFrom(ADR, 7);
+	for(int i=0; i<=6;i++){
+		if(i==3) {
+			i++;
+			Wire.read();
 		}
 
-		Time_Date[0] = TimeDate[6];
-		Time_Date[1] = TimeDate[5];
-		Time_Date[2] = TimeDate[4];
-		Time_Date[3] = TimeDate[2];
-		Time_Date[4] = TimeDate[1];
-		Time_Date[5] = TimeDate[0];
+		unsigned int n = Wire.read(); //Read value of reg
 
-		String TimeDateStr[7];
-		for(int i = 0; i < 6; i++) {
-			TimeDateStr[i] = String(Time_Date[i]);
-			if(TimeDateStr[i].length() < 2) {
-				TimeDateStr[i] = "0" + TimeDateStr[i];
-			}
-			// Serial.println(TimeDateStr[i]); //DEBUG!
+		//Process results
+		int a=n & B00001111;
+		if(i==2){
+			int b=(n & B00110000)>>4; //24 hour mode
+			if(b==B00000010)
+				b=20;
+			else if(b==B00000001)
+				b=10;
+			TimeDate[i]=a+b;
 		}
-		TimeDateStr[0] = "20" + TimeDateStr[0];
-
-	//Format raw results into appropriate string
-	if(mode == 0) //Return in order Year, Month, Day, Hour, Minute, Second (Scientific Style)
-	{
-		temp.concat(TimeDateStr[0]);
-		temp.concat("/") ;
-		temp.concat(TimeDateStr[1]);
-		temp.concat("/") ;
-		temp.concat(TimeDateStr[2]);
-		temp.concat(" ") ;
-		temp.concat(TimeDateStr[3]);
-		temp.concat(":") ;
-		temp.concat(TimeDateStr[4]);
-		temp.concat(":") ;
-		temp.concat(TimeDateStr[5]);
-	  	return(temp);
+		else if(i==4){
+			int b=(n & B00110000)>>4;
+			TimeDate[i]=a+b*10;
+		}
+		else if(i==5){
+			int b=(n & B00010000)>>4;
+			TimeDate[i]=a+b*10;
+		}
+		else if(i==6){
+			int b=(n & B11110000)>>4;
+			TimeDate[i]=a+b*10;
+		}
+		else{
+			int b=(n & B01110000)>>4;
+			TimeDate[i]=a+b*10;
+			}
 	}
 
-	if(mode == 1) //Return in order Month, Day, Year, Hour, Minute, Second (US Civilian Style)
-	{
+	Time_Date[0] = TimeDate[6];
+	Time_Date[1] = TimeDate[5];
+	Time_Date[2] = TimeDate[4];
+	Time_Date[3] = TimeDate[2];
+	Time_Date[4] = TimeDate[1];
+	Time_Date[5] = TimeDate[0];
+}
 
-		temp.concat(TimeDateStr[1]);
-		temp.concat("/") ;
-		temp.concat(TimeDateStr[2]);
-		temp.concat("/") ;
-		temp.concat(TimeDateStr[0]);
-		temp.concat(" ") ;
-		temp.concat(TimeDateStr[3]);
-		temp.concat(":") ;
-		temp.concat(TimeDateStr[4]);
-		temp.concat(":") ;
-		temp.concat(TimeDateStr[5]);
-	  	return(temp);
+size_t DS3231_Logger::formatTime(char* buf, size_t n, int mode)
+{
+	//The stored fields, in order: 2-digit year, month, day, hour, minute, second.
+	//Every field is zero-padded to two digits and the year carries its century,
+	//which is what the String form did by padding each one and prefixing "20".
+	int year = 2000 + Time_Date[YEAR];
+	int written = 0;
+
+	if(mode == 0) //Year, Month, Day, Hour, Minute, Second (Scientific Style)
+		written = snprintf_P(buf, n, PSTR("%04d/%02d/%02d %02d:%02d:%02d"), year,
+			Time_Date[MONTH], Time_Date[DAY], Time_Date[3], Time_Date[4], Time_Date[5]);
+
+	else if(mode == 1) //Month, Day, Year, Hour, Minute, Second (US Civilian Style)
+		written = snprintf_P(buf, n, PSTR("%02d/%02d/%04d %02d:%02d:%02d"),
+			Time_Date[MONTH], Time_Date[DAY], year, Time_Date[3], Time_Date[4], Time_Date[5]);
+
+	else if(mode == 2) //As mode 1, on a 12 hour clock. The hour is not padded
+	{
+		int hour12 = Time_Date[3] % 12;
+		if(hour12 == 0) hour12 = 12;   //Midnight and noon are both twelve
+		written = snprintf_P(buf, n, PSTR("%02d/%02d/%04d %d:%02d:%02d %s"),
+			Time_Date[MONTH], Time_Date[DAY], year, hour12,
+			Time_Date[4], Time_Date[5], Time_Date[3] >= 12 ? "PM" : "AM");
 	}
 
-	if(mode == 2) //Return in order Month, Day, Year, Hour (12 hour), Minute, Second
-	{
-		temp.concat(TimeDateStr[1]);
-		temp.concat("/") ;
-		temp.concat(TimeDateStr[2]);
-		temp.concat("/") ;
-		temp.concat(TimeDateStr[0]);
-		temp.concat(" ") ;
-		temp.concat(TimeDate[3] % 12);
-		temp.concat(":") ;
-		temp.concat(TimeDateStr[4]);
-		temp.concat(":") ;
-		temp.concat(TimeDateStr[5]);
-		if(TimeDate[3] >= 12) temp.concat(" PM");
-		else temp.concat(" AM");
-	  	return(temp);
-	}
-
-	if(mode == 1701) //Returns in order Year, Day (of year), Hour, Minute, Second (Stardate)
+	else if(mode == 1701) //Year, Day (of year), Hour, Minute, Second (Stardate)
 	{
 		int DayOfYear = 0;
 		int MonthDay[13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-		if(TimeDate[6] % 4 == 0) MonthDay[2] = 29;
+		if(Time_Date[YEAR] % 4 == 0) MonthDay[2] = 29;
 
-		for(int m = 1; m < TimeDate[5]; m++)
+		for(int m = 1; m < Time_Date[MONTH]; m++)
 		{
 			DayOfYear = DayOfYear + MonthDay[m];
 		}
-		DayOfYear = DayOfYear + TimeDate[4];
+		DayOfYear = DayOfYear + Time_Date[DAY];
 
-		temp.concat(TimeDateStr[6]);
-		temp.concat(".") ;
-		temp.concat(DayOfYear);
-		temp.concat(" ") ;
-		temp.concat(TimeDateStr[2]);
-		temp.concat(".") ;
-		temp.concat(TimeDateStr[1]);
-		temp.concat(".") ;
-		temp.concat(TimeDateStr[0]);
-	  	return(temp);
+		written = snprintf_P(buf, n, PSTR("%04d.%d %02d.%02d.%04d"), year, DayOfYear,
+			Time_Date[DAY], Time_Date[MONTH], year);
 	}
 
-	else return("Invalid Input");
+	else written = snprintf_P(buf, n, PSTR("Invalid Input"));
+
+	if(written < 0) { //The platform refused to format at all
+		if(n > 0) buf[0] = '\0';
+		return 0;
+	}
+	if((size_t)written >= n) return n > 0 ? n - 1 : 0; //Truncated: say what fits
+	return (size_t)written;
 }
+
+size_t DS3231_Logger::printTime(Print& out, int mode)
+{
+	readTime();
+	char buf[32];
+	formatTime(buf, sizeof(buf), mode);
+	return out.print(buf);
+}
+
+String DS3231_Logger::getTime(int mode)
+{
+	readTime();
+	char buf[32];
+	formatTime(buf, sizeof(buf), mode);
+	return String(buf);
+}
+
 
 float DS3231_Logger::getTemp()
 {
@@ -222,7 +201,7 @@ float DS3231_Logger::getTemp()
 
 int DS3231_Logger::getValue(int n)	// n = 0:Year, 1:Month, 2:Day, 3:Hour, 4:Minute, 5:Second
 {
-	getTime(0); //Update time
+	readTime(); //Update time
 	return Time_Date[n]; //Return desired value 
 }
 
@@ -261,7 +240,7 @@ int DS3231_Logger::setAlarm(unsigned int Seconds) { //Set alarm from current tim
 	//Currently can not set timer for more than 24 hours
 	uint8_t AlarmMask = 0x08; //nibble for A1Mx values
 	uint8_t DY = 0; //DY/DT value 
-	getTime(0);
+	readTime();
 
 	int AlarmTime[7] = {Time_Date[5], Time_Date[4], Time_Date[3], 0, Time_Date[2], Time_Date[1], Time_Date[0]};
 	int AlarmVal[7] = {Seconds % 60, ((Seconds - (Seconds % 60))/60) % 60, ((Seconds - (Seconds % 3600))/3600) % 24, 0, ((Seconds - (Seconds % 86400))/86400), 0, 0};  //Remove unused elements?? FIX!
