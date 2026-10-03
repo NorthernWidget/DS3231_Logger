@@ -18,7 +18,7 @@ Distributed as-is; no warranty is given.
 
 #include "Arduino.h"
 #ifdef __AVR__
-#include <avr/pgmspace.h>   //The format strings live in flash, not in RAM
+#include <avr/pgmspace.h>  //The format strings live in flash, not in RAM
 #else
 #define snprintf_P snprintf  //A host build, where a literal is in RAM anyway
 #endif
@@ -31,22 +31,21 @@ Distributed as-is; no warranty is given.
 #define MONTH 1
 #define YEAR 0
 
-class DS3231_Logger
-{
-	public:
-		DS3231_Logger();
-		int begin(void);
-		int setTime(int Year, int Month, int Day, int Hour, int Min, int Sec);
+class DS3231_Logger {
+public:
+  DS3231_Logger();
+  int begin(void);
+  int setTime(int Year, int Month, int Day, int Hour, int Min, int Sec);
 
-		/**
+  /**
 		 * @brief Read the clock's registers into the stored fields.
 		 * @details What getValue() and setAlarm() need, and what formatTime()
 		 * formats. Separated from the formatting so that nothing has to build a
 		 * string to find out what time it is.
 		 */
-		void readTime();
+  void readTime();
 
-		/**
+  /**
 		 * @brief Write the stored time into a buffer, in one of four formats.
 		 * @details Reads nothing: call readTime() first. This is the one
 		 * definition of each format; printTime() and getTime() both come
@@ -57,27 +56,26 @@ class DS3231_Logger
 		 *        2 US civilian with a 12-hour clock, 1701 stardate.
 		 * @return Characters written, not counting the terminator.
 		 */
-		size_t formatTime(char* buf, size_t n, int mode = 0);
+  size_t formatTime(char* buf, size_t n, int mode = 0);
 
-		/**
+  /**
 		 * @brief Read the clock and print the time into any Print.
 		 * @details A File to reach a card, Serial to reach the monitor. No string
 		 * is built for it.
 		 * @return Bytes printed.
 		 */
-		size_t printTime(Print& out, int mode = 0);
+  size_t printTime(Print& out, int mode = 0);
 
-		/** @brief Read the clock and return the time as a String, in formatTime()'s formats. */
-		String getTime(int mode);
-		float getTemp();
-		int getValue(int n);
-		int setAlarm(unsigned int Seconds);
-		int clearAlarm();
+  /** @brief Read the clock and return the time as a String, in formatTime()'s formats. */
+  String getTime(int mode);
+  float getTemp();
+  int getValue(int n);
+  int setAlarm(unsigned int Seconds);
+  int clearAlarm();
 
-	private:
-		int ADR = 0x68; //Address of DS3231 (non-variable)
-		int Time_Date[6]; //Store date time values of integers 
-
+private:
+  int ADR = 0x68;    //Address of DS3231 (non-variable)
+  int Time_Date[6];  //Store date time values of integers
 };
 
 #endif

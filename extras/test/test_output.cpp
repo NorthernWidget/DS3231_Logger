@@ -11,7 +11,9 @@
 TwoWire Wire;
 #include "../../src/DS3231_Logger.cpp"
 
-static uint8_t bcd(int v) { return (uint8_t)(((v / 10) << 4) | (v % 10)); }
+static uint8_t bcd(int v) {
+  return (uint8_t)(((v / 10) << 4) | (v % 10));
+}
 
 // Put a time on the bus. `hour` is 24-hour, as the library's own decode expects
 // of a clock in 24-hour mode (bit 6 of 0x02 clear).
@@ -20,7 +22,7 @@ static void clockHolds(int year2, int month, int date, int hour, int minute, int
   Wire.image[0x00] = bcd(second);
   Wire.image[0x01] = bcd(minute);
   Wire.image[0x02] = bcd(hour);
-  Wire.image[0x03] = 0x01;          // day of week: read and discarded
+  Wire.image[0x03] = 0x01;  // day of week: read and discarded
   Wire.image[0x04] = bcd(date);
   Wire.image[0x05] = bcd(month);
   Wire.image[0x06] = bcd(year2);
@@ -30,7 +32,7 @@ static void report(const char* what, DS3231_Logger& rtc) {
   char b[32];
   rtc.readTime();
   printf("[%s]\n", what);
-  for (int mode : {0, 1, 2, 1701, 7}) {
+  for (int mode : { 0, 1, 2, 1701, 7 }) {
     size_t n = rtc.formatTime(b, sizeof b, mode);
     printf("  mode %-4d %2zu bytes  %s\n", mode, n, b);
   }
@@ -62,18 +64,22 @@ int main() {
 
   // 5. A buffer too small for the format: truncated, terminated, and the length
   //    reported is what fits rather than what was wanted.
-  { clockHolds(26, 11, 7, 14, 5, 9);
+  {
+    clockHolds(26, 11, 7, 14, 5, 9);
     rtc.readTime();
     char small[8];
     size_t n = rtc.formatTime(small, sizeof small, 0);
-    printf("[truncated to 8] %zu bytes  %s\n", n, small); }
+    printf("[truncated to 8] %zu bytes  %s\n", n, small);
+  }
 
   // 6. The String form, which section 15 lets this library keep: the same bytes.
-  { rtc.readTime();
+  {
+    rtc.readTime();
     char b[32];
     rtc.formatTime(b, sizeof b, 0);
     String s = rtc.getTime(0);
-    printf("[getTime(0)] %s  matches formatTime: %d\n", s.c_str(), s == String(b)); }
+    printf("[getTime(0)] %s  matches formatTime: %d\n", s.c_str(), s == String(b));
+  }
 
   return 0;
 }
