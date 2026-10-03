@@ -26,3 +26,7 @@
 *.exe
 *.out
 *.app
+
+# host-side test harness outputs
+extras/test/ds3231_test
+extras/test/output.txt
