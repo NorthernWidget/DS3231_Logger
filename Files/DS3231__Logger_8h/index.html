@@ -225,7 +225,7 @@
           <aside class="sidebar__right sticky">
             <nav class="toc" aria-label="Table of contents">
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
-              <ul class="toc__menu"><li><a href="#classes">Classes</a></li><li><a href="#defines">Defines</a></li><li><a href="#macros-documentation">Macros Documentation</a><ul><li><a href="#define-second">define SECOND</a></li><li><a href="#define-minute">define MINUTE</a></li><li><a href="#define-hour">define HOUR</a></li><li><a href="#define-day">define DAY</a></li><li><a href="#define-month">define MONTH</a></li><li><a href="#define-year">define YEAR</a></li></ul></li><li><a href="#source-code">Source code</a></li></ul>
+              <ul class="toc__menu"><li><a href="#classes">Classes</a></li><li><a href="#defines">Defines</a></li><li><a href="#macros-documentation">Macros Documentation</a><ul><li><a href="#define-snprintf_p">define snprintf_P</a></li><li><a href="#define-second">define SECOND</a></li><li><a href="#define-minute">define MINUTE</a></li><li><a href="#define-hour">define HOUR</a></li><li><a href="#define-day">define DAY</a></li><li><a href="#define-month">define MONTH</a></li><li><a href="#define-year">define YEAR</a></li></ul></li><li><a href="#source-code">Source code</a></li></ul>
             </nav>
           </aside>
         
@@ -258,6 +258,10 @@
   <tbody>
     <tr>
       <td> </td>
+      <td><strong><a href="/DS3231_Logger/Files/DS3231__Logger_8h/#define-snprintf-p">snprintf_P</a></strong></td>
+    </tr>
+    <tr>
+      <td> </td>
       <td><strong><a href="/DS3231_Logger/Files/DS3231__Logger_8h/#define-second">SECOND</a></strong></td>
     </tr>
     <tr>
@@ -284,6 +288,11 @@
 </table>
 
 <h2 id="macros-documentation">Macros Documentation</h2>
+
+<h3 id="define-snprintf_p">define snprintf_P</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#define snprintf_P snprintf
+</span></code></pre></div></div>
 
 <h3 id="define-second">define SECOND</h3>
 
@@ -336,6 +345,11 @@ Distributed as-is; no warranty is given.
 #define DS3231_LOGGER_h
 </span>
 <span class="cp">#include</span> <span class="cpf">"Arduino.h"</span><span class="cp">
+#ifdef __AVR__
+#include</span> <span class="cpf">&lt;avr/pgmspace.h&gt;</span><span class="c1">  //The format strings live in flash, not in RAM</span><span class="cp">
+#else
+#define snprintf_P snprintf  //A host build, where a literal is in RAM anyway
+#endif
 #include</span> <span class="cpf">&lt;Wire.h&gt;</span><span class="cp">
 </span>
 <span class="cp">#define SECOND 5
@@ -345,22 +359,27 @@ Distributed as-is; no warranty is given.
 #define MONTH 1
 #define YEAR 0
 </span>
-<span class="k">class</span> <span class="nc">DS3231_Logger</span>
-<span class="p">{</span>
-    <span class="nl">public:</span>
-        <span class="n">DS3231_Logger</span><span class="p">();</span>
-        <span class="kt">int</span> <span class="n">begin</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
-        <span class="kt">int</span> <span class="n">setTime</span><span class="p">(</span><span class="kt">int</span> <span class="n">Year</span><span class="p">,</span> <span class="kt">int</span> <span class="n">Month</span><span class="p">,</span> <span class="kt">int</span> <span class="n">Day</span><span class="p">,</span> <span class="kt">int</span> <span class="n">Hour</span><span class="p">,</span> <span class="kt">int</span> <span class="n">Min</span><span class="p">,</span> <span class="kt">int</span> <span class="n">Sec</span><span class="p">);</span>
-        <span class="n">String</span> <span class="n">getTime</span><span class="p">(</span><span class="kt">int</span> <span class="n">mode</span><span class="p">);</span>
-        <span class="kt">float</span> <span class="n">getTemp</span><span class="p">();</span>
-        <span class="kt">int</span> <span class="n">getValue</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">);</span>
-        <span class="kt">int</span> <span class="n">setAlarm</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">Seconds</span><span class="p">);</span>
-        <span class="kt">int</span> <span class="n">clearAlarm</span><span class="p">();</span>
+<span class="k">class</span> <span class="nc">DS3231_Logger</span> <span class="p">{</span>
+<span class="nl">public:</span>
+  <span class="n">DS3231_Logger</span><span class="p">();</span>
+  <span class="kt">int</span> <span class="n">begin</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+  <span class="kt">int</span> <span class="n">setTime</span><span class="p">(</span><span class="kt">int</span> <span class="n">Year</span><span class="p">,</span> <span class="kt">int</span> <span class="n">Month</span><span class="p">,</span> <span class="kt">int</span> <span class="n">Day</span><span class="p">,</span> <span class="kt">int</span> <span class="n">Hour</span><span class="p">,</span> <span class="kt">int</span> <span class="n">Min</span><span class="p">,</span> <span class="kt">int</span> <span class="n">Sec</span><span class="p">);</span>
 
-    <span class="nl">private:</span>
-        <span class="kt">int</span> <span class="n">ADR</span> <span class="o">=</span> <span class="mh">0x68</span><span class="p">;</span> <span class="c1">//Address of DS3231 (non-variable)</span>
-        <span class="kt">int</span> <span class="n">Time_Date</span><span class="p">[</span><span class="mi">6</span><span class="p">];</span> <span class="c1">//Store date time values of integers </span>
+  <span class="kt">void</span> <span class="n">readTime</span><span class="p">();</span>
 
+  <span class="kt">size_t</span> <span class="n">formatTime</span><span class="p">(</span><span class="kt">char</span><span class="o">*</span> <span class="n">buf</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">n</span><span class="p">,</span> <span class="kt">int</span> <span class="n">mode</span> <span class="o">=</span> <span class="mi">0</span><span class="p">);</span>
+
+  <span class="kt">size_t</span> <span class="n">printTime</span><span class="p">(</span><span class="n">Print</span><span class="o">&amp;</span> <span class="n">out</span><span class="p">,</span> <span class="kt">int</span> <span class="n">mode</span> <span class="o">=</span> <span class="mi">0</span><span class="p">);</span>
+
+  <span class="n">String</span> <span class="n">getTime</span><span class="p">(</span><span class="kt">int</span> <span class="n">mode</span><span class="p">);</span>
+  <span class="kt">float</span> <span class="n">getTemp</span><span class="p">();</span>
+  <span class="kt">int</span> <span class="n">getValue</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">);</span>
+  <span class="kt">int</span> <span class="n">setAlarm</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">Seconds</span><span class="p">);</span>
+  <span class="kt">int</span> <span class="n">clearAlarm</span><span class="p">();</span>
+
+<span class="nl">private:</span>
+  <span class="kt">int</span> <span class="n">ADR</span> <span class="o">=</span> <span class="mh">0x68</span><span class="p">;</span>    <span class="c1">//Address of DS3231 (non-variable)</span>
+  <span class="kt">int</span> <span class="n">Time_Date</span><span class="p">[</span><span class="mi">6</span><span class="p">];</span>  <span class="c1">//Store date time values of integers</span>
 <span class="p">};</span>
 
 <span class="cp">#endif
@@ -368,7 +387,7 @@ Distributed as-is; no warranty is given.
 
 <hr />
 
-<p>Updated on 2026-09-22 at 23:10:10 +0000</p>
+<p>Updated on 2026-10-04 at 04:52:16 +0000</p>
 
         
       </section>

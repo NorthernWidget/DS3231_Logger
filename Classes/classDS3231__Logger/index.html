@@ -225,7 +225,7 @@
           <aside class="sidebar__right sticky">
             <nav class="toc" aria-label="Table of contents">
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
-              <ul class="toc__menu"><li><a href="#public-functions">Public Functions</a></li><li><a href="#public-functions-documentation">Public Functions Documentation</a><ul><li><a href="#function-ds3231_logger">function DS3231_Logger</a></li><li><a href="#function-begin">function begin</a></li><li><a href="#function-settime">function setTime</a></li><li><a href="#function-gettime">function getTime</a></li><li><a href="#function-gettemp">function getTemp</a></li><li><a href="#function-getvalue">function getValue</a></li><li><a href="#function-setalarm">function setAlarm</a></li><li><a href="#function-clearalarm">function clearAlarm</a></li></ul></li></ul>
+              <ul class="toc__menu"><li><a href="#public-functions">Public Functions</a></li><li><a href="#public-functions-documentation">Public Functions Documentation</a><ul><li><a href="#function-ds3231_logger">function DS3231_Logger</a></li><li><a href="#function-begin">function begin</a></li><li><a href="#function-settime">function setTime</a></li><li><a href="#function-readtime">function readTime</a></li><li><a href="#function-formattime">function formatTime</a></li><li><a href="#function-printtime">function printTime</a></li><li><a href="#function-gettime">function getTime</a></li><li><a href="#function-gettemp">function getTemp</a></li><li><a href="#function-getvalue">function getValue</a></li><li><a href="#function-setalarm">function setAlarm</a></li><li><a href="#function-clearalarm">function clearAlarm</a></li></ul></li></ul>
             </nav>
           </aside>
         
@@ -252,8 +252,20 @@
       <td><strong><a href="/DS3231_Logger/Classes/classDS3231__Logger/#function-settime">setTime</a></strong>(int Year, int Month, int Day, int Hour, int Min, int Sec)</td>
     </tr>
     <tr>
+      <td>void</td>
+      <td><strong><a href="/DS3231_Logger/Classes/classDS3231__Logger/#function-readtime">readTime</a></strong>()<br />Read the clock’s registers into the stored fields.</td>
+    </tr>
+    <tr>
+      <td>size_t</td>
+      <td><strong><a href="/DS3231_Logger/Classes/classDS3231__Logger/#function-formattime">formatTime</a></strong>(char * buf, size_t n, int mode =0)<br />Write the stored time into a buffer, in one of four formats.</td>
+    </tr>
+    <tr>
+      <td>size_t</td>
+      <td><strong><a href="/DS3231_Logger/Classes/classDS3231__Logger/#function-printtime">printTime</a></strong>(Print &amp; out, int mode =0)<br />Read the clock and print the time into any Print.</td>
+    </tr>
+    <tr>
       <td>String</td>
-      <td><strong><a href="/DS3231_Logger/Classes/classDS3231__Logger/#function-gettime">getTime</a></strong>(int mode)</td>
+      <td><strong><a href="/DS3231_Logger/Classes/classDS3231__Logger/#function-gettime">getTime</a></strong>(int mode)<br />Read the clock and return the time as a String, in <a href="/DS3231_Logger/Classes/classDS3231__Logger/#function-formattime">formatTime()</a>’s formats.</td>
     </tr>
     <tr>
       <td>float</td>
@@ -300,12 +312,60 @@
 <span class="p">)</span>
 </code></pre></div></div>
 
+<h3 id="function-readtime">function readTime</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">readTime</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Read the clock’s registers into the stored fields.</p>
+
+<p>What getValue() and setAlarm() need, and what <a href="/DS3231_Logger/Classes/classDS3231__Logger/#function-formattime">formatTime()</a> formats. Separated from the formatting so that nothing has to build a string to find out what time it is.</p>
+
+<h3 id="function-formattime">function formatTime</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">size_t</span> <span class="n">formatTime</span><span class="p">(</span>
+    <span class="kt">char</span> <span class="o">*</span> <span class="n">buf</span><span class="p">,</span>
+    <span class="kt">size_t</span> <span class="n">n</span><span class="p">,</span>
+    <span class="kt">int</span> <span class="n">mode</span> <span class="o">=</span><span class="mi">0</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>Write the stored time into a buffer, in one of four formats.</p>
+
+<p><strong>Parameters</strong>:</p>
+
+<ul>
+  <li><strong>buf</strong> Where to write; truncated rather than overrun.</li>
+  <li><strong>n</strong> Size of buf, including the terminator. 32 is always enough.</li>
+  <li><strong>mode</strong> 0 scientific (YYYY/MM/DD HH:MM:SS), 1 US civilian, 2 US civilian with a 12-hour clock, 1701 stardate.</li>
+</ul>
+
+<p><strong>Return</strong>: Characters written, not counting the terminator.</p>
+
+<p>Reads nothing: call <a href="/DS3231_Logger/Classes/classDS3231__Logger/#function-readtime">readTime()</a> first. This is the one definition of each format; <a href="/DS3231_Logger/Classes/classDS3231__Logger/#function-printtime">printTime()</a> and <a href="/DS3231_Logger/Classes/classDS3231__Logger/#function-gettime">getTime()</a> both come through it.</p>
+
+<h3 id="function-printtime">function printTime</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">size_t</span> <span class="n">printTime</span><span class="p">(</span>
+    <span class="n">Print</span> <span class="o">&amp;</span> <span class="n">out</span><span class="p">,</span>
+    <span class="kt">int</span> <span class="n">mode</span> <span class="o">=</span><span class="mi">0</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>Read the clock and print the time into any Print.</p>
+
+<p><strong>Return</strong>: Bytes printed.</p>
+
+<p>A File to reach a card, Serial to reach the monitor. No string is built for it.</p>
+
 <h3 id="function-gettime">function getTime</h3>
 
 <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">String</span> <span class="n">getTime</span><span class="p">(</span>
     <span class="kt">int</span> <span class="n">mode</span>
 <span class="p">)</span>
 </code></pre></div></div>
+
+<p>Read the clock and return the time as a String, in <a href="/DS3231_Logger/Classes/classDS3231__Logger/#function-formattime">formatTime()</a>’s formats.</p>
 
 <h3 id="function-gettemp">function getTemp</h3>
 
@@ -333,7 +393,7 @@
 
 <hr />
 
-<p>Updated on 2026-09-22 at 23:10:10 +0000</p>
+<p>Updated on 2026-10-04 at 04:52:16 +0000</p>
 
         
       </section>
