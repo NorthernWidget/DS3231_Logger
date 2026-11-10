@@ -34,6 +34,7 @@ int DS3231_Logger::setTime(int Year, int Month, int Day, int Hour, int Min, int 
     Year = Year - 2000;  //FIX! Add compnesation for centry
   }
   int TimeDate[7] = { Sec, Min, Hour, 0, Day, Month, Year };
+  int Result = 0;
   for (int i = 0; i <= 6; i++) {
     if (i == 3)
       i++;
@@ -48,12 +49,13 @@ int DS3231_Logger::setTime(int Year, int Month, int Day, int Hour, int Min, int 
     TimeDate[i] = a + (b << 4);
 
     Wire.beginTransmission(ADR);
-    Wire.write(i);            //Write values starting at reg 0x00
-    Wire.write(TimeDate[i]);  //Write time date values into regs
-    Wire.endTransmission();   //return result of begin, reading is optional
+    Wire.write(i);                    //Write values starting at reg 0x00
+    Wire.write(TimeDate[i]);          //Write time date values into regs
+    Result = Wire.endTransmission();  //return result of begin, reading is optional
   }
 
   //Read back time to test result of write??
+  return Result;
 }
 
 void DS3231_Logger::readTime() {
@@ -287,12 +289,12 @@ int DS3231_Logger::setAlarm(unsigned int Seconds) {  //Set alarm from current ti
     }
   }
 
-  clearAlarm();
+  return clearAlarm();
 }
 
 int DS3231_Logger::clearAlarm() {  //Clear registers to stop alarm, must call setAlarm again to get it to turn on again
   Wire.beginTransmission(ADR);
-  Wire.write(0x0F);        //Write values to status reg
-  Wire.write(0x00);        //Clear all flags
-  Wire.endTransmission();  //return result of begin, reading is optional
+  Wire.write(0x0F);               //Write values to status reg
+  Wire.write(0x00);               //Clear all flags
+  return Wire.endTransmission();  //return result of begin, reading is optional
 }
