@@ -81,5 +81,17 @@ int main() {
     printf("[getTime(0)] %s  matches formatTime: %d\n", s.c_str(), s == String(b));
   }
 
+  // 7. What each call leaves in the control register (0x0E): EOSC, BBSQW, CONV,
+  //    INTCN, A2IE and A1IE are bits 7, 6, 5, 2, 1 and 0 (data sheet, Control Register).
+  {
+    clockHolds(26, 11, 7, 14, 5, 9);
+    rtc.begin();
+    printf("[control after begin()] 0x%02X\n", Wire.image[0x0E]);
+    rtc.setAlarm(300);
+    printf("[control after setAlarm(300)] 0x%02X\n", Wire.image[0x0E]);
+    rtc.setAlarm(60);
+    printf("[control after setAlarm(60)] 0x%02X\n", Wire.image[0x0E]);
+  }
+
   return 0;
 }

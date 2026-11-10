@@ -28,3 +28,6 @@
   getValue: year=24 month=3 day=1 hour=23 minute=59 second=58
 [truncated to 8] 7 bytes  2026/11
 [getTime(0)] 2026/11/07 14:05:09  matches formatTime: 1
+[control after begin()] 0x24
+[control after setAlarm(300)] 0x05
+[control after setAlarm(60)] 0x06
