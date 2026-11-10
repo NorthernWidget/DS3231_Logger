@@ -25,7 +25,7 @@ int DS3231_Logger::begin(void) {
 
   Wire.beginTransmission(ADR);
   Wire.write(0x0E);               //Write values to Control reg
-  Wire.write(0x24);               //Start oscilator, turn off BBSQW, Turn off alarms, turn on convert
+  Wire.write(0x64);               //Start oscilator, turn on BBSQW (alarm on VBAT, DS3231M rev A1 errata), Turn off alarms, turn on convert
   return Wire.endTransmission();  //return result of begin, reading is optional
 }
 
@@ -205,7 +205,7 @@ int DS3231_Logger::setAlarm(unsigned int Seconds) {  //Set alarm from current ti
 
     Wire.beginTransmission(ADR);
     Wire.write(0x0E);  //Write values to control reg
-    Wire.write(0x06);  //Turn on INTCN and Alarm 2
+    Wire.write(0x46);  //Turn on BBSQW, INTCN and Alarm 2
     Wire.endTransmission();
 
     //DEBUG!
@@ -239,7 +239,7 @@ int DS3231_Logger::setAlarm(unsigned int Seconds) {  //Set alarm from current ti
 
     Wire.beginTransmission(ADR);
     Wire.write(0x0E);  //Write values to control reg
-    Wire.write(0x05);  //Turn on INTCN and Alarm 1
+    Wire.write(0x45);  //Turn on BBSQW, INTCN and Alarm 1
     Wire.endTransmission();
 
     //Calc seconds
