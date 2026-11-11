@@ -258,7 +258,7 @@ Distributed as-is; no warranty is given.
 
   <span class="n">Wire</span><span class="p">.</span><span class="n">beginTransmission</span><span class="p">(</span><span class="n">ADR</span><span class="p">);</span>
   <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="mh">0x0E</span><span class="p">);</span>               <span class="c1">//Write values to Control reg</span>
-  <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="mh">0x24</span><span class="p">);</span>               <span class="c1">//Start oscilator, turn off BBSQW, Turn off alarms, turn on convert</span>
+  <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="mh">0x64</span><span class="p">);</span>               <span class="c1">//Start oscilator, turn on BBSQW (alarm on VBAT, DS3231M rev A1 errata), Turn off alarms, turn on convert</span>
   <span class="k">return</span> <span class="n">Wire</span><span class="p">.</span><span class="n">endTransmission</span><span class="p">();</span>  <span class="c1">//return result of begin, reading is optional</span>
 <span class="p">}</span>
 
@@ -267,6 +267,7 @@ Distributed as-is; no warranty is given.
     <span class="n">Year</span> <span class="o">=</span> <span class="n">Year</span> <span class="o">-</span> <span class="mi">2000</span><span class="p">;</span>  <span class="c1">//FIX! Add compnesation for centry</span>
   <span class="p">}</span>
   <span class="kt">int</span> <span class="n">TimeDate</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="n">Sec</span><span class="p">,</span> <span class="n">Min</span><span class="p">,</span> <span class="n">Hour</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Day</span><span class="p">,</span> <span class="n">Month</span><span class="p">,</span> <span class="n">Year</span> <span class="p">};</span>
+  <span class="kt">int</span> <span class="n">Result</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
   <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="mi">6</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)</span>
       <span class="n">i</span><span class="o">++</span><span class="p">;</span>
@@ -281,12 +282,13 @@ Distributed as-is; no warranty is given.
     <span class="n">TimeDate</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="p">(</span><span class="n">b</span> <span class="o">&lt;&lt;</span> <span class="mi">4</span><span class="p">);</span>
 
     <span class="n">Wire</span><span class="p">.</span><span class="n">beginTransmission</span><span class="p">(</span><span class="n">ADR</span><span class="p">);</span>
-    <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>            <span class="c1">//Write values starting at reg 0x00</span>
-    <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">TimeDate</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>  <span class="c1">//Write time date values into regs</span>
-    <span class="n">Wire</span><span class="p">.</span><span class="n">endTransmission</span><span class="p">();</span>   <span class="c1">//return result of begin, reading is optional</span>
+    <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>                    <span class="c1">//Write values starting at reg 0x00</span>
+    <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">TimeDate</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>          <span class="c1">//Write time date values into regs</span>
+    <span class="n">Result</span> <span class="o">=</span> <span class="n">Wire</span><span class="p">.</span><span class="n">endTransmission</span><span class="p">();</span>  <span class="c1">//return result of begin, reading is optional</span>
   <span class="p">}</span>
 
   <span class="c1">//Read back time to test result of write??</span>
+  <span class="k">return</span> <span class="n">Result</span><span class="p">;</span>
 <span class="p">}</span>
 
 <span class="kt">void</span> <span class="n">DS3231_Logger</span><span class="o">::</span><span class="n">readTime</span><span class="p">()</span> <span class="p">{</span>
@@ -436,7 +438,7 @@ Distributed as-is; no warranty is given.
 
     <span class="n">Wire</span><span class="p">.</span><span class="n">beginTransmission</span><span class="p">(</span><span class="n">ADR</span><span class="p">);</span>
     <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="mh">0x0E</span><span class="p">);</span>  <span class="c1">//Write values to control reg</span>
-    <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="mh">0x06</span><span class="p">);</span>  <span class="c1">//Turn on INTCN and Alarm 2</span>
+    <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="mh">0x46</span><span class="p">);</span>  <span class="c1">//Turn on BBSQW, INTCN and Alarm 2</span>
     <span class="n">Wire</span><span class="p">.</span><span class="n">endTransmission</span><span class="p">();</span>
 
     <span class="c1">//DEBUG!</span>
@@ -470,7 +472,7 @@ Distributed as-is; no warranty is given.
 
     <span class="n">Wire</span><span class="p">.</span><span class="n">beginTransmission</span><span class="p">(</span><span class="n">ADR</span><span class="p">);</span>
     <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="mh">0x0E</span><span class="p">);</span>  <span class="c1">//Write values to control reg</span>
-    <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="mh">0x05</span><span class="p">);</span>  <span class="c1">//Turn on INTCN and Alarm 1</span>
+    <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="mh">0x45</span><span class="p">);</span>  <span class="c1">//Turn on BBSQW, INTCN and Alarm 1</span>
     <span class="n">Wire</span><span class="p">.</span><span class="n">endTransmission</span><span class="p">();</span>
 
     <span class="c1">//Calc seconds</span>
@@ -520,20 +522,20 @@ Distributed as-is; no warranty is given.
     <span class="p">}</span>
   <span class="p">}</span>
 
-  <span class="n">clearAlarm</span><span class="p">();</span>
+  <span class="k">return</span> <span class="nf">clearAlarm</span><span class="p">();</span>
 <span class="p">}</span>
 
 <span class="kt">int</span> <span class="n">DS3231_Logger</span><span class="o">::</span><span class="n">clearAlarm</span><span class="p">()</span> <span class="p">{</span>  <span class="c1">//Clear registers to stop alarm, must call setAlarm again to get it to turn on again</span>
   <span class="n">Wire</span><span class="p">.</span><span class="n">beginTransmission</span><span class="p">(</span><span class="n">ADR</span><span class="p">);</span>
-  <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="mh">0x0F</span><span class="p">);</span>        <span class="c1">//Write values to status reg</span>
-  <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="mh">0x00</span><span class="p">);</span>        <span class="c1">//Clear all flags</span>
-  <span class="n">Wire</span><span class="p">.</span><span class="n">endTransmission</span><span class="p">();</span>  <span class="c1">//return result of begin, reading is optional</span>
+  <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="mh">0x0F</span><span class="p">);</span>               <span class="c1">//Write values to status reg</span>
+  <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="mh">0x00</span><span class="p">);</span>               <span class="c1">//Clear all flags</span>
+  <span class="k">return</span> <span class="n">Wire</span><span class="p">.</span><span class="n">endTransmission</span><span class="p">();</span>  <span class="c1">//return result of begin, reading is optional</span>
 <span class="p">}</span>
 </code></pre></div></div>
 
 <hr />
 
-<p>Updated on 2026-10-04 at 04:52:16 +0000</p>
+<p>Updated on 2026-11-11 at 05:36:42 +0000</p>
 
         
       </section>
